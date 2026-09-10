@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { fetchWithFallback } from '../lib/supabaseClient';
-import { mockTeam } from '../data/mockData';
+import { mockTeam } from '../data/mockdata';
 
 export default function TeamShowcase() {
   // state: รายชื่อทีมงานและที่ปรึกษา

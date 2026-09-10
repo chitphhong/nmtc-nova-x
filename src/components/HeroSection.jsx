@@ -1,7 +1,7 @@
 // src/components/HeroSection.jsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { lightingModes, hotspots } from '../data/mockData';
+import { lightingModes, hotspots } from '../data/mockdata';
 
 export default function HeroSection() {
   // state: โหมดแสงที่ผู้ใช้เลือกอยู่ (standby / approach / active / photo)

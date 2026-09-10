@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fetchWithFallback } from '../lib/supabaseClient';
-import { mockModules } from '../data/mockData';
+import { mockModules } from '../data/mockdata';
 
 // ไอคอน SVG ประจำแต่ละโมดูล เก็บเป็น object เพื่อเรียกใช้ตาม id
 const icons = {

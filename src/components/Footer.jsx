@@ -1,6 +1,6 @@
 // src/components/Footer.jsx
 import React from 'react';
-import { navLinks } from '../data/mockData';
+import { navLinks } from '../data/mockdata';
 
 export default function Footer() {
   return (

@@ -1,7 +1,7 @@
 // src/components/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { navLinks } from '../data/mockData';
+import { navLinks } from '../data/mockdata';
 
 export default function Navbar() {
   // state: เปิด/ปิดเมนู Drawer บนมือถือ

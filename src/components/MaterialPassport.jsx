@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 import { fetchWithFallback } from '../lib/supabaseClient';
-import { mockStats, mockMaterials } from '../data/mockData';
+import { mockStats, mockMaterials } from '../data/mockdata';
 
 /* คอมโพเนนต์ย่อย: ตัวนับเลขวิ่งขึ้นเมื่อเลื่อนมาเห็น */
 function Counter({ value, suffix = '', decimals = 0 }) {
