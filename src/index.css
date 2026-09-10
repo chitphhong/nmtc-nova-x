@@ -1,0 +1,74 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* เลื่อนหน้าจอแบบนุ่มนวลเมื่อคลิกลิงก์ anchor */
+    scroll-behavior: smooth;
+    /* กันการ zoom อัตโนมัติของ iOS เวลาโฟกัส input */
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    /* บังคับฟอนต์ Kanit + สีพื้น + สีตัวอักษรหลัก และกันเลื่อนแนวนอน */
+    @apply font-kanit bg-surface text-black antialiased overflow-x-hidden;
+  }
+  /* กำหนดระยะเผื่อหัวข้อไม่ให้ถูก Navbar บังตอน scroll ไป section */
+  section[id] {
+    scroll-margin-top: 88px;
+  }
+}
+
+@layer components {
+  /* การ์ดกระจก (Glassmorphism) ใช้ซ้ำทั้งเว็บ */
+  .glass-card {
+    @apply bg-white/60 backdrop-blur-xl border border-white/70 rounded-2xl shadow-lg;
+  }
+  /* การ์ดกระจกบนพื้นหลังภาพเข้ม */
+  .glass-dark {
+    @apply bg-slateink/40 backdrop-blur-xl border border-white/20 rounded-2xl;
+  }
+  /* เส้นขอบเรืองแสงสีทองแชมเปญ */
+  .glow-gold {
+    @apply border border-champagne/60 shadow-gold;
+  }
+  /* เส้นขอบเรืองแสงสีฟ้า */
+  .glow-azure {
+    @apply border border-azure/50 shadow-azure;
+  }
+  /* ปุ่มมาตรฐาน — บังคับ min-height 44px ตามกฎ touch target */
+  .btn-base {
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 sm:px-7 rounded-full
+           font-medium text-sm sm:text-base transition-all duration-300 active:scale-95
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-champagne/70;
+  }
+  /* หัวข้อหลักแบบ fluid typography ปรับตามขนาดจอ */
+  .h-fluid {
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight;
+  }
+}
+
+/* ปรับ scrollbar ให้เข้าธีม (เฉพาะเบราว์เซอร์ที่รองรับ) */
+
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #F8FAFC; }
+::-webkit-scrollbar-thumb { background: #0284C7; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #F59E0B; }
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0284C7 #F8FAFC;
+}
+
+/* เคารพผู้ใช้ที่ตั้งค่าลดการเคลื่อนไหวในระบบปฏิบัติการ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
