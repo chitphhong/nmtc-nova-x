@@ -70,7 +70,7 @@ export default function MaterialPassport() {
           className="max-w-3xl"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-azure/30 bg-azure/8 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-wider text-azure">
-            MATERIAL PASSPORT
+            ข้อมูลที่มาของวัสดุ
           </span>
           <h2 className="h-fluid mt-4 text-slateink">
             ทุกกิโลกรัม <span className="text-azure">มีที่มา</span>
