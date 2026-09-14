@@ -1,11 +1,14 @@
 // src/components/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { NavLink, Link } from 'react-router-dom';
 import { navLinks } from '../data/mockdata';
 
 export default function Navbar() {
   // state: เปิด/ปิดเมนู Drawer บนมือถือ
   const [isOpen, setIsOpen] = useState(false);
+  // state: บอกว่า scroll ลงมาแล้วหรือยัง (ใช้เปลี่ยนพื้นหลัง Navbar)
+  const [scrolled, setScrolled] = useState(false);
 
   // ผูก event scroll เพื่ออัปเดตสถานะ scrolled (ใช้ passive เพื่อประสิทธิภาพ)
   useEffect(() => {
@@ -27,6 +30,14 @@ export default function Navbar() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
+  // class สำหรับ active link ใน desktop menu
+  const navLinkClass = ({ isActive }) =>
+    `relative inline-flex min-h-[44px] items-center rounded-full px-3 xl:px-4 text-sm font-medium transition-colors duration-300 ${
+      isActive
+        ? 'text-azure bg-azure/8 font-semibold'
+        : 'text-slateink/75 hover:text-azure hover:bg-azure/5'
+    }`;
+
   return (
     <>
       {/* แถบนำทางแบบ fixed พร้อมเอฟเฟกต์กระจก เปลี่ยนความทึบตามการ scroll */}
@@ -34,39 +45,44 @@ export default function Navbar() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-white border-b border-azure/10 shadow-sm`}
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? 'bg-white/90 backdrop-blur-xl border-b border-azure/10 shadow-sm'
+            : 'bg-white border-b border-azure/10 shadow-sm'
+        }`}
       >
-        {/* padding แบบไล่ระดับตามขนาดจอ ตามกฎ dynamic padding */}
+        {/* padding แบบไล่ระดับตามขนาดจอ */}
         <nav className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-16">
           <div className="flex h-16 md:h-20 items-center justify-between gap-4">
-            {/* โลโก้ / ชื่อโครงการ */}
-            <a href="#hero" className="flex items-center gap-2 sm:gap-3 min-h-[44px]">
-              {/* กล่องไอคอนไล่เฉดฟ้า→ทอง สื่อถึงการแปรรูป */}
-              <img 
-  src="/Impact_Muang_Thong_Thani_Logo.svg" 
-  alt="IMPACT RE:BUILD" 
-  className="h-12 w-13 sm:h-12 sm:w-13 "
-/>
+            {/* โลโก้ / ชื่อโครงการ — ใช้ Link ไป "/" */}
+            <Link to="/" className="flex items-center gap-2 sm:gap-3 min-h-[44px]">
+              <img
+                src="/Impact_Muang_Thong_Thani_Logo.svg"
+                alt="IMPACT RE:BUILD"
+                className="h-12 w-13 sm:h-12 sm:w-13"
+              />
               <span className="leading-tight">
                 <span className="block text-base sm:text-lg font-bold tracking-tight text-slateink">
-                   <span className="text-azure">RE BUILD</span>
+                  <span className="text-azure">RE BUILD</span>
                 </span>
                 <span className="hidden sm:block text-[10px] font-light tracking-[0.2em] text-slateink/60">
                   FROM WASTE TO WONDER
                 </span>
               </span>
-            </a>
+            </Link>
 
             {/* เมนูสำหรับเดสก์ท็อป — ซ่อนบนจอเล็ก แสดงตั้งแต่ lg ขึ้นไป */}
             <ul className="hidden lg:flex items-center gap-1 xl:gap-2">
               {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="relative inline-flex min-h-[44px] items-center rounded-full px-3 xl:px-4 text-sm font-medium text-slateink/75 transition-colors duration-300 hover:text-azure hover:bg-azure/5"
+                <li key={link.to}>
+                  {/* NavLink จะเพิ่ม class active อัตโนมัติเมื่อ route ตรง */}
+                  <NavLink
+                    to={link.to}
+                    end={link.to === '/'}  // "end" ป้องกัน "/" match ทุก route
+                    className={navLinkClass}
                   >
                     {link.label}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -127,21 +143,28 @@ export default function Navbar() {
               <ul className="flex flex-col gap-1 p-4">
                 {navLinks.map((link, i) => (
                   <motion.li
-                    key={link.href}
+                    key={link.to}
                     initial={{ opacity: 0, x: 24 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.08 + i * 0.06 }}
                   >
-                    <a
-                      href={link.href}
+                    <NavLink
+                      to={link.to}
+                      end={link.to === '/'}
                       onClick={() => setIsOpen(false)} // ปิดเมนูทันทีหลังเลือก
-                      className="flex min-h-[52px] items-center justify-between rounded-xl px-4 text-base font-medium text-slateink/85 transition-colors hover:bg-azure/8 hover:text-azure"
+                      className={({ isActive }) =>
+                        `flex min-h-[52px] items-center justify-between rounded-xl px-4 text-base font-medium transition-colors ${
+                          isActive
+                            ? 'bg-azure/8 text-azure'
+                            : 'text-slateink/85 hover:bg-azure/8 hover:text-azure'
+                        }`
+                      }
                     >
                       {link.label}
                       <svg className="h-4 w-4 text-champagne" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                         <path d="M9 6l6 6-6 6" />
                       </svg>
-                    </a>
+                    </NavLink>
                   </motion.li>
                 ))}
               </ul>
@@ -157,8 +180,6 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
-
-
     </>
   );
 }

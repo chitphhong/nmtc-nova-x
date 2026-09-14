@@ -100,11 +100,11 @@ export const mockTeam = [
   { id: 6, name: 'ผศ.ดร. อรวรรณ เจริญสุข', role: 'ที่ปรึกษาด้านวัสดุยั่งยืน', org: 'ภาควิชาวัสดุศาสตร์', type: 'advisor', initials: 'อจ' },
 ];
 
-// เมนูนำทางหลัก
+// เมนูนำทางหลัก — ใช้ path สำหรับ React Router
 export const navLinks = [
-  { href: '#hero', label: 'หน้าแรก' },
-  { href: '#passport', label: 'Material Passport' },
-  { href: '#modules', label: 'โมดูลโครงสร้าง' },
-  { href: '#sponsor', label: 'ผู้สนับสนุนหลัก' },
-  { href: '#team', label: 'ทีมงาน' },
+  { to: '/',          label: 'หน้าแรก' },
+  { to: '/materials', label: 'Material Passport' },
+  { to: '/modules',   label: 'โมดูลโครงสร้าง' },
+  { to: '/sponsor',   label: 'ผู้สนับสนุนหลัก' },
+  { to: '/team',      label: 'ทีมงาน' },
 ];

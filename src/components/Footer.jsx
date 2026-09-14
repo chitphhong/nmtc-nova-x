@@ -1,5 +1,6 @@
 // src/components/Footer.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { navLinks } from '../data/mockdata';
 
 export default function Footer() {
@@ -24,10 +25,14 @@ export default function Footer() {
             <p className="text-sm font-semibold text-champagne">เมนู</p>
             <ul className="mt-3 space-y-1">
               {navLinks.map((l) => (
-                <li key={l.href}>
-                  <a href={l.href} className="inline-flex min-h-[40px] items-center text-xs font-light text-white/60 transition-colors hover:text-champagne">
+                <li key={l.to}>
+                  {/* ใช้ Link จาก react-router-dom แทน <a> */}
+                  <Link
+                    to={l.to}
+                    className="inline-flex min-h-[40px] items-center text-xs font-light text-white/60 transition-colors hover:text-champagne"
+                  >
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -38,7 +43,7 @@ export default function Footer() {
             <p className="mt-3 text-xs font-light leading-relaxed text-white/60">
               ศูนย์แสดงสินค้าและการประชุม<br />
               อิมแพ็ค เมืองทองธานี<br />
-              <span className="text-cyanglow">Green Meetings & Sustainable Events</span>
+              <span className="text-cyanglow">Green Meetings &amp; Sustainable Events</span>
             </p>
           </div>
         </div>

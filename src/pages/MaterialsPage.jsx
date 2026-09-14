@@ -1,0 +1,75 @@
+// src/pages/MaterialsPage.jsx
+// หน้า /materials — ข้อมูลที่มาของวัสดุ (Material Passport) แบบเต็มหน้า
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import MaterialPassport from '../components/MaterialPassport';
+
+export default function MaterialsPage() {
+  return (
+    <>
+      {/* ===== Page Hero Banner ===== */}
+      <section className="relative pt-32 pb-12 sm:pt-36 sm:pb-16 overflow-hidden bg-gradient-to-b from-azure/8 to-surface">
+        {/* ลายกริดพื้นหลังแบบ blueprint */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(2,132,199,1) 1px,transparent 1px),linear-gradient(90deg,rgba(2,132,199,1) 1px,transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        />
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-8 lg:px-16">
+          {/* Breadcrumb */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="flex items-center gap-2 text-xs font-light text-slateink/50"
+          >
+            <Link to="/" className="hover:text-azure transition-colors">หน้าหลัก</Link>
+            <span>/</span>
+            <span className="text-azure font-medium">ข้อมูลที่มาของวัสดุ</span>
+          </motion.div>
+
+          {/* Page title */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.08 }}
+            className="mt-4 max-w-3xl"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full border border-azure/30 bg-azure/8 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-wider text-azure">
+              MATERIAL PASSPORT
+            </span>
+            <h1 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-slateink">
+              ข้อมูลที่มา{' '}
+              <span className="text-azure">ของวัสดุ</span>
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm sm:text-base font-light leading-relaxed text-slateink/65">
+              บันทึกเส้นทางของวัสดุทุกชิ้น ตั้งแต่ขยะที่เกิดขึ้นในงานอีเวนต์
+              จนกลายเป็นแผ่นเทอราซโซที่ประกอบเป็นประติมากรรม ตรวจสอบย้อนกลับได้ทั้งหมด
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ===== เนื้อหาหลัก: ใช้ MaterialPassport component เดิมซ้ำ ===== */}
+      <MaterialPassport />
+
+      {/* ===== ปุ่มกลับ ===== */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-16 pb-16 sm:pb-20">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm font-medium text-azure hover:text-azure/70 transition-colors"
+        >
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M19 12H5M11 6l-6 6 6 6" />
+          </svg>
+          กลับหน้าหลัก
+        </Link>
+      </div>
+    </>
+  );
+}
