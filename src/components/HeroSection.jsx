@@ -1,14 +1,12 @@
 // src/components/HeroSection.jsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { lightingModes, hotspots } from '../data/mockdata';
+import { lightingModes } from '../data/mockdata';
 import ImpactModelViewer from './ImpactModelViewer';
 
 export default function HeroSection() {
   // state: โหมดแสงที่ผู้ใช้เลือกอยู่ (standby / approach / active / photo)
   const [mode, setMode] = useState(lightingModes[0]);
-  // state: hotspot ที่กำลังถูกเปิดดูรายละเอียด
-  const [activeSpot, setActiveSpot] = useState(null);
 
   return (
     <section id="hero" className="relative min-h-[100svh] w-full overflow-hidden">
@@ -103,35 +101,6 @@ export default function HeroSection() {
               }}
             />
             <ImpactModelViewer mode={mode} className="absolute inset-0 grid place-items-center" />
-            {/* วนลูปสร้างจุด Hotspot ตามพิกัด % ที่กำหนดใน mockData */}
-            {hotspots.map((spot, i) => (
-              <button
-                key={spot.id}
-                onClick={() => setActiveSpot(activeSpot === spot.id ? null : spot.id)}
-                style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
-                aria-label={`ดูมิติ ${spot.label} ${spot.value}`}
-                className="absolute -translate-x-1/2 -translate-y-1/2 grid h-11 w-11 place-items-center"
-              >
-                {/* วงกลมกระพริบเรียกความสนใจ */}
-                <motion.span
-                  animate={{ scale: [1, 1.6, 1], opacity: [0.7, 0, 0.7] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
-                  className="absolute h-6 w-6 rounded-full bg-champagne/60"
-                />
-                <span className="relative h-3 w-3 rounded-full bg-champagne ring-2 ring-white/80" />
-                {/* ป้ายบอกค่ามิติ แสดงเมื่อกดเลือก */}
-                {activeSpot === spot.id && (
-                  <motion.span
-                    initial={{ opacity: 0, y: 6, scale: 0.9 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    className="absolute -top-11 whitespace-nowrap rounded-lg border border-champagne/50 bg-slateink/90 px-3 py-1.5 text-[11px] font-medium text-champagne backdrop-blur"
-                  >
-                    {spot.label} · {spot.value}
-                  </motion.span>
-                )}
-              </button>
-            ))}
-
             {/* ป้ายสรุปมิติรวมมุมล่างซ้าย */}
             <div className="absolute bottom-3 left-3 rounded-lg border border-white/20 bg-slateink/60 px-3 py-1.5 backdrop-blur">
               <span className="text-[11px] sm:text-xs font-light tracking-wider text-white/85">
