@@ -14,11 +14,12 @@ const VIEWER_SETTINGS = {
   // ระยะซูมใกล้สุดและไกลสุดที่ผู้ใช้ทำได้ด้วยล้อเมาส์หรือการ pinch
   minZoomDistance: 2.2,
   maxZoomDistance: 15,
-  // จุดศูนย์กลางของ bounding box ในไฟล์ .dae เยื้องไปทางซ้ายกว่าตัวโมเดลที่เห็นจริง
-  // เพิ่ม target ไปทางขวาเพื่อดันชิ้นงานกลับมาอยู่กึ่งกลางเฟรม
-  horizontalCenterCorrection: 0.0,
-  // ชดเชยภาพที่โมเดลล้นหรือเบี้ยวบนจอมือถือ (0, 0 = กึ่งกลางเรขาคณิตพอดี)
-  mobileCenterCorrection: { x: 0.0, y: 0.0 },
+  // จุดศูนย์กลางของประติมากรรมเยื้องไปทางขวาล่างเมื่อเทียบกับ Bounding Box รวม
+  // เลื่อนเป้าหมายกล้องเพื่อดึงตัวชิ้นงานให้อยู่ตรงกลางจอพอดี
+  horizontalCenterCorrection: 0.35,
+  verticalCenterCorrection: -0.25,
+  // สำหรับจอมือถือ
+  mobileCenterCorrection: { x: 0.35, y: -0.28 },
 };
 
 // ===== จุดปรับแต่งความสว่าง =====
@@ -158,10 +159,11 @@ export default function ImpactModelViewer({ mode, className = '' }) {
         visualCenter.y += fittedSize.y * VIEWER_SETTINGS.mobileCenterCorrection.y;
       } else {
         visualCenter.x += fittedSize.x * VIEWER_SETTINGS.horizontalCenterCorrection;
+        visualCenter.y += fittedSize.y * VIEWER_SETTINGS.verticalCenterCorrection;
       }
 
-      // กล้องมองจากด้านหน้า ยกขึ้นเล็กน้อย (y * 0.06) เพื่อไม่ให้มุมมองราบเกินไป
-      camera.position.set(visualCenter.x, visualCenter.y + fittedSize.y * 0.06, visualCenter.z + distance);
+      // กล้องมองจากด้านหน้า
+      camera.position.set(visualCenter.x, visualCenter.y + fittedSize.y * 0.05, visualCenter.z + distance);
       controls.target.copy(visualCenter);
       controls.update();
     }
