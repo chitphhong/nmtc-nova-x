@@ -72,7 +72,7 @@ export default function MaterialPassport() {
         )}
 
         {/* ===== การ์ดสถิติหลัก 2 ใบ ===== */}
-        <div className="mt-8 sm:mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="mt-3 sm:mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {/* การ์ดที่ 1: พลาสติกรีไซเคิล */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -152,7 +152,7 @@ export default function MaterialPassport() {
         </div>
 
         {/* ===== ตัวเลขย่อยของแหล่งวัสดุ: 1 คอลัมน์มือถือ → 3 คอลัมน์เดสก์ท็อป ===== */}
-        <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+        <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-1 gap-4 sm:gap-6">
           {[
             { label: 'ฝาขวด PET', value: stats.pet_bottles, unit: 'ขวด', color: 'text-azure' },
             
