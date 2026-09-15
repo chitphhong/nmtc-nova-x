@@ -1,31 +1,18 @@
 // src/components/MaterialPassport.jsx
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { fetchWithFallback, supabase } from '../lib/supabaseClient';
 import { mockMaterials } from '../data/mockdata';
 
-/* คอมโพเนนต์ย่อย: ตัวนับเลขวิ่งขึ้นเมื่อเลื่อนมาเห็น */
+/* คอมโพเนนต์ย่อย: ฟอร์แมตตัวเลขจริงจาก Supabase ให้แสดงทันทีทุกอุปกรณ์ */
 function Counter({ value, suffix = '', decimals = 0 }) {
-  const ref = useRef(null);
-  // ตรวจว่าองค์ประกอบเข้ามาในจอแล้วหรือยัง (once = เล่นครั้งเดียว)
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-  const mv = useMotionValue(0);
-  // ใส่ spring ให้ตัวเลขวิ่งแบบนุ่มนวล
-  const spring = useSpring(mv, { damping: 40, stiffness: 90 });
-  const [display, setDisplay] = useState('0');
+  const numericValue = Number(value) || 0;
+  const display = numericValue.toLocaleString('th-TH', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
 
-  // เมื่อเข้าจอให้เซ็ตค่าเป้าหมาย ตัวเลขจะไต่ขึ้นเอง
-  useEffect(() => { if (inView) mv.set(value); }, [inView, value, mv]);
-
-  // สมัครรับค่าที่เปลี่ยนแปลงแล้วฟอร์แมตเป็นตัวเลขมีคอมมา
-  useEffect(() => {
-    const unsub = spring.on('change', (v) =>
-      setDisplay(v.toLocaleString('th-TH', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }))
-    );
-    return unsub; // ยกเลิก subscription ตอน unmount
-  }, [spring, decimals]);
-
-  return <span ref={ref}>{display}{suffix}</span>;
+  return <span>{display}{suffix}</span>;
 }
 
 export default function MaterialPassport() {
@@ -106,7 +93,7 @@ export default function MaterialPassport() {
               </span>
             </div>
             <p className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slateink">
-              <Counter value={stats?.recycled_plastic_kg ?? 0} />
+              <Counter value={stats?.recycled_plastic_kg ?? 0} decimals={1} />
               <span className="ml-2 text-xl sm:text-2xl font-medium text-azure">kg</span>
             </p>
             {/* แถบ progress สื่อความคืบหน้า */}

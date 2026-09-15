@@ -126,12 +126,15 @@ export default function ImpactModelViewer({ mode }) {
     // เริ่มด้วยมุมหน้าตรงและเผื่อกรอบรอบโมเดล เพื่อเห็นทั้งชิ้นทันทีที่โหลด
     function frameCamera() {
       if (!fittedCenter || !fittedSize) return;
+      // หน้าจอแคบต้องถอยกล้องเพิ่ม เพื่อให้โมเดลเต็มชิ้นและอยู่กลาง viewport
+      const isMobile = window.matchMedia('(max-width: 639px)').matches;
+      const framingPadding = isMobile ? 1.9 : VIEWER_SETTINGS.framingPadding;
       const verticalFov = THREE.MathUtils.degToRad(camera.fov);
       const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
       const distance = Math.max(
         fittedSize.y / (2 * Math.tan(verticalFov / 2)),
         fittedSize.x / (2 * Math.tan(horizontalFov / 2)),
-      ) * VIEWER_SETTINGS.framingPadding;
+      ) * framingPadding;
 
       camera.position.set(fittedCenter.x, fittedCenter.y + fittedSize.y * 0.06, fittedCenter.z + distance);
       controls.target.copy(fittedCenter);
