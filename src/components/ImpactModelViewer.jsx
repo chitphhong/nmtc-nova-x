@@ -18,7 +18,7 @@ const VIEWER_SETTINGS = {
   // เพิ่ม target ไปทางขวาเพื่อดันชิ้นงานกลับมาอยู่กึ่งกลางเฟรม
   horizontalCenterCorrection: 0.0,
   // ชดเชยภาพที่โมเดลล้นไปทางขวาล่างบนจอมือถือ
-  mobileCenterCorrection: { x: 0.0, y: 0.0 },
+  mobileCenterCorrection: { x: 0.72, y: -0.56 },
   
 };
 
