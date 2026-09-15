@@ -44,16 +44,26 @@ export default function TeamShowcase({ hideHeader = false }) {
         gold ? 'hover:shadow-gold border-champagne/30' : 'hover:shadow-azure'
       }`}
     >
-      {/* วงกลมอักษรย่อแทนรูปโปรไฟล์ */}
-      <div
-        className={`mx-auto grid h-16 w-16 sm:h-20 sm:w-20 place-items-center rounded-full text-lg sm:text-xl font-semibold text-white ${
-          gold
-            ? 'bg-gradient-to-br from-champagne to-amber-400'
-            : 'bg-gradient-to-br from-azure to-cyanglow'
-        }`}
-      >
-        {p.initials}
-      </div>
+      {/* ถ้ามี image_url ให้แสดงรูปภาพ ถ้าไม่มีให้ใช้อักษรย่อเดิมเป็น fallback */}
+      {p.image_url ? (
+        <img
+          src={p.image_url}
+          alt={p.name}
+          className={`mx-auto h-20 w-20 sm:h-24 sm:w-24 rounded-full object-cover shadow-md border-2 ${
+            gold ? 'border-champagne' : 'border-azure'
+          }`}
+        />
+      ) : (
+        <div
+          className={`mx-auto grid h-16 w-16 sm:h-20 sm:w-20 place-items-center rounded-full text-lg sm:text-xl font-semibold text-white ${
+            gold
+              ? 'bg-gradient-to-br from-champagne to-amber-400'
+              : 'bg-gradient-to-br from-azure to-cyanglow'
+          }`}
+        >
+          {p.initials}
+        </div>
+      )}
       <h3 className="mt-4 text-sm sm:text-base font-semibold text-slateink">{p.name}</h3>
       <p className={`mt-1 text-xs sm:text-sm font-medium ${gold ? 'text-champagne' : 'text-azure'}`}>
         {p.role}
