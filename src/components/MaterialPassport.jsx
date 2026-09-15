@@ -1,8 +1,8 @@
 // src/components/MaterialPassport.jsx
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
-import { fetchWithFallback } from '../lib/supabaseClient';
-import { mockStats, mockMaterials } from '../data/mockdata';
+import { fetchWithFallback, supabase } from '../lib/supabaseClient';
+import { mockMaterials } from '../data/mockdata';
 
 /* คอมโพเนนต์ย่อย: ตัวนับเลขวิ่งขึ้นเมื่อเลื่อนมาเห็น */
 function Counter({ value, suffix = '', decimals = 0 }) {
@@ -29,12 +29,12 @@ function Counter({ value, suffix = '', decimals = 0 }) {
 }
 
 export default function MaterialPassport() {
-  // state: เก็บสถิติจาก Supabase (เริ่มต้นด้วย mock)
-  const [stats, setStats] = useState(mockStats);
+  // state: เก็บสถิติจริงจากตาราง project_stats
+  const [stats, setStats] = useState(null);
   // state: รายการวัสดุ
   const [materials, setMaterials] = useState(mockMaterials);
-  // state: บอกว่าข้อมูลที่แสดงเป็นข้อมูลจำลองหรือข้อมูลจริง
-  const [isMock, setIsMock] = useState(true);
+  // ตาราง materials ยังอนุญาตให้ใช้ mock ได้จนกว่าจะเพิ่มข้อมูลจริง
+  const [isMaterialsMock, setIsMaterialsMock] = useState(true);
   // state: สถานะกำลังโหลด
   const [loading, setLoading] = useState(true);
 
@@ -42,14 +42,23 @@ export default function MaterialPassport() {
   useEffect(() => {
     let alive = true; // ธงกัน setState หลัง unmount
     (async () => {
-      // ดึงสถิติสรุป (แถวเดียว) จากตาราง project_stats
-      const s = await fetchWithFallback('project_stats', mockStats, { single: true });
+      // ดึงสถิติล่าสุดจาก Supabase โดยตรง — ไม่ใช้ mockStats แทนข้อมูลจริง
+      const { data: projectStats, error: statsError } = supabase
+        ? await supabase
+            .from('project_stats')
+            .select('*')
+            .order('updated_at', { ascending: false })
+            .limit(1)
+            .maybeSingle()
+        : { data: null, error: new Error('Supabase ยังไม่ได้ตั้งค่า') };
+
+      if (statsError) console.error('[Supabase] อ่าน project_stats ไม่สำเร็จ:', statsError);
       // ดึงรายการวัสดุ เรียงตาม id
       const m = await fetchWithFallback('materials', mockMaterials, { order: 'id' });
       if (!alive) return;
-      setStats(s.data);
+      setStats(projectStats);
       setMaterials(m.data);
-      setIsMock(s.isMock || m.isMock);
+      setIsMaterialsMock(m.isMock);
       setLoading(false);
     })();
     return () => { alive = false; };
@@ -64,10 +73,10 @@ export default function MaterialPassport() {
         {/* ===== หัวข้อ Section ===== */}
         
 
-        {/* แจ้งเตือนเมื่อยังใช้ข้อมูลจำลอง (แสดงเฉพาะตอน dev) */}
-        {!loading && isMock && (
+        {/* แจ้งเฉพาะรายการวัสดุที่ยังเป็นข้อมูลจำลอง */}
+        {!loading && isMaterialsMock && (
           <p className="mt-2 text-[11px] font-light text-champagne">
-            * กำลังแสดงข้อมูลจำลอง — เชื่อมต่อ Supabase เพื่อดูตัวเลขเรียลไทม์
+            * รายการเส้นทางวัสดุยังเป็นข้อมูลจำลอง — สถิติด้านบนดึงจาก Supabase แล้ว
           </p>
         )}
 
@@ -97,7 +106,7 @@ export default function MaterialPassport() {
               </span>
             </div>
             <p className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slateink">
-              <Counter value={stats.recycled_plastic_kg} />
+              <Counter value={stats?.recycled_plastic_kg ?? 0} />
               <span className="ml-2 text-xl sm:text-2xl font-medium text-azure">kg</span>
             </p>
             {/* แถบ progress สื่อความคืบหน้า */}
@@ -136,7 +145,7 @@ export default function MaterialPassport() {
               </span>
             </div>
             <p className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slateink">
-              <Counter value={stats.co2_offset_kg} />
+              <Counter value={stats?.co2_offset_kg ?? 0} />
               <span className="ml-2 text-xl sm:text-2xl font-medium text-champagne">kg</span>
             </p>
             <div className="mt-5 h-1.5 w-full overflow-hidden rounded-full bg-slateink/8">
@@ -154,10 +163,10 @@ export default function MaterialPassport() {
         {/* ===== ตัวเลขย่อยของแหล่งวัสดุ: 1 คอลัมน์มือถือ → 3 คอลัมน์เดสก์ท็อป ===== */}
         <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[
-            { label: 'ฝาขวด PET', value: stats.pet_bottles, unit: 'ขวด', color: 'text-azure' },
-            { label: 'ฟิวเจอร์บอร์ด', value: stats.furniture_boards, unit: 'แผ่น', color: 'text-azure' },
-            { label: 'ถาดพลาสติก', value: stats.plastic_trays, unit: 'ถาด', color: 'text-azure' },
-            { label: 'จานพลาสติก', value: stats.plastic_plates, unit: 'จาน', color: 'text-azure' },
+            { label: 'ฝาขวด PET', value: stats?.pet_bottles ?? 0, unit: 'ขวด', color: 'text-azure' },
+            { label: 'ฟิวเจอร์บอร์ด', value: stats?.furniture_boards ?? 0, unit: 'แผ่น', color: 'text-azure' },
+            { label: 'ถาดพลาสติก', value: stats?.plastic_trays ?? 0, unit: 'ถาด', color: 'text-azure' },
+            { label: 'จานพลาสติก', value: stats?.plastic_plates ?? 0, unit: 'จาน', color: 'text-azure' },
 
             
           ].map((item, i) => (
