@@ -15,6 +15,28 @@ const VIEWER_SETTINGS = {
   maxZoomDistance: 15,
 };
 
+// ===== จุดปรับแต่งความสว่าง =====
+// ปรับตัวเลขของแต่ละโหมดได้จากที่เดียว: ค่ายิ่งมาก = สว่างขึ้น
+const LIGHTING_SETTINGS = {
+  standby: {
+    // แสงพื้นฐานเพื่อให้ยังมองเห็นทรงโมเดลขณะไฟหลักดับ
+    ambient: 0.26,
+    key: 0.75,
+    cyan: 4,
+    gold: 0,
+    // การรับแสงรวมของภาพ: เพิ่มทีละ 0.05 จะควบคุมได้ง่ายที่สุด
+    exposure: 0.88,
+  },
+  active: {
+    // แสงเมื่อใช้งานจริง: ไฟทองคือไฟหลัก ส่วน cyan ช่วยให้เงาไม่ดำทึบ
+    ambient: 0.62,
+    key: 2.7,
+    cyan: 16,
+    gold: 68,
+    exposure: 1.12,
+  },
+};
+
 // แสดงโมเดล SketchUp (.dae) และสร้างระบบไฟจากฝั่งเว็บ
 export default function ImpactModelViewer({ mode }) {
   const containerRef = useRef(null);
@@ -91,11 +113,13 @@ export default function ImpactModelViewer({ mode }) {
 
     function updateLights() {
       const isActive = modeRef.current?.key === 'active';
-      ambientLight.intensity = isActive ? 0.72 : 0.18;
-      keyLight.intensity = isActive ? 3.4 : 0.45;
-      fillLight.intensity = isActive ? 24 : 2;
-      activeLight.intensity = isActive ? 100 : 0;
-      renderer.toneMappingExposure = isActive ? 1.3 : 0.7;
+      // เลือกชุดค่าตามปุ่ม Lighting Mood ที่ผู้ใช้กด
+      const settings = isActive ? LIGHTING_SETTINGS.active : LIGHTING_SETTINGS.standby;
+      ambientLight.intensity = settings.ambient;
+      keyLight.intensity = settings.key;
+      fillLight.intensity = settings.cyan;
+      activeLight.intensity = settings.gold;
+      renderer.toneMappingExposure = settings.exposure;
     }
 
     // เริ่มด้วยมุมหน้าตรงและเผื่อกรอบรอบโมเดล เพื่อเห็นทั้งชิ้นทันทีที่โหลด
