@@ -111,6 +111,15 @@ export default function ImpactModelViewer({ mode, className = '' }) {
         const fittedBounds = new THREE.Box3().setFromObject(modelGroup);
         fittedCenter = fittedBounds.getCenter(new THREE.Vector3());
         fittedSize = fittedBounds.getSize(new THREE.Vector3());
+
+        // ===== DEBUG: ดูค่าจริงของโมเดลใน Console (F12) =====
+        const fMin = fittedBounds.min;
+        const fMax = fittedBounds.max;
+        console.log('[ModelViewer] fittedCenter:', fittedCenter);
+        console.log('[ModelViewer] fittedSize:', fittedSize);
+        console.log('[ModelViewer] bounds min:', fMin, 'max:', fMax);
+        console.log('[ModelViewer] isMobile:', window.matchMedia('(max-width: 639px)').matches);
+
         frameCamera();
       },
       undefined,
@@ -119,7 +128,6 @@ export default function ImpactModelViewer({ mode, className = '' }) {
 
     function updateLights() {
       const isActive = modeRef.current?.key === 'active';
-      // เลือกชุดค่าตามปุ่ม Lighting Mood ที่ผู้ใช้กด
       const settings = isActive ? LIGHTING_SETTINGS.active : LIGHTING_SETTINGS.standby;
       ambientLight.intensity = settings.ambient;
       keyLight.intensity = settings.key;
@@ -131,18 +139,19 @@ export default function ImpactModelViewer({ mode, className = '' }) {
     // เริ่มด้วยมุมหน้าตรงและเผื่อกรอบรอบโมเดล เพื่อเห็นทั้งชิ้นทันทีที่โหลด
     function frameCamera() {
       if (!fittedCenter || !fittedSize) return;
-      // หน้าจอแคบต้องถอยกล้องเพิ่ม เพื่อให้โมเดลเต็มชิ้นและอยู่กลาง viewport
       const isMobile = window.matchMedia('(max-width: 639px)').matches;
-      const framingPadding = isMobile ? 1.7 : VIEWER_SETTINGS.framingPadding;
+      // มือถือ: ใช้ aspect 4:3 (แนวนอนในจอแคบ) ต้องถอยกล้องพอประมาณ
+      const framingPadding = isMobile ? 1.8 : VIEWER_SETTINGS.framingPadding;
       const verticalFov = THREE.MathUtils.degToRad(camera.fov);
       const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
-      const distance = Math.max(
-        fittedSize.y / (2 * Math.tan(verticalFov / 2)),
-        fittedSize.x / (2 * Math.tan(horizontalFov / 2)),
-      ) * framingPadding;
 
-      // ชดเชยศูนย์กลางเชิงภาพ: model bounds มีส่วนที่มองไม่เห็น/มีน้ำหนักไม่เท่ากัน
-      // จึงเล็งกล้องเยื้องขวาจาก bounds center เพื่อให้ชิ้นงานที่ผู้ใช้เห็นอยู่กลางเฟรม
+      // คำนวณระยะที่ทำให้โมเดลพอดีกรอบ โดยใช้ด้านที่ใหญ่กว่า (กว้าง vs สูง)
+      const distByHeight = fittedSize.y / (2 * Math.tan(verticalFov / 2));
+      const distByWidth = fittedSize.x / (2 * Math.tan(horizontalFov / 2));
+      // บนมือถือ กรอบเป็น 4:3 (แนวนอน) → ความกว้างเป็นตัวจำกัด ใช้ distByWidth เป็นหลัก
+      const distance = Math.max(distByHeight, distByWidth) * framingPadding;
+
+      // จุดเล็งกล้อง: เริ่มจากกึ่งกลาง bounding box แล้วชดเชยตามค่าที่ตั้ง
       const visualCenter = fittedCenter.clone();
       if (isMobile) {
         visualCenter.x += fittedSize.x * VIEWER_SETTINGS.mobileCenterCorrection.x;
@@ -151,6 +160,7 @@ export default function ImpactModelViewer({ mode, className = '' }) {
         visualCenter.x += fittedSize.x * VIEWER_SETTINGS.horizontalCenterCorrection;
       }
 
+      // กล้องมองจากด้านหน้า ยกขึ้นเล็กน้อย (y * 0.06) เพื่อไม่ให้มุมมองราบเกินไป
       camera.position.set(visualCenter.x, visualCenter.y + fittedSize.y * 0.06, visualCenter.z + distance);
       controls.target.copy(visualCenter);
       controls.update();
