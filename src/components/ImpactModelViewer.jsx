@@ -29,8 +29,8 @@ export default function ImpactModelViewer({ mode }) {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enablePan = false;
-    controls.minDistance = 2;
-    controls.maxDistance = 14;
+    controls.minDistance = 2.2;
+    controls.maxDistance = 15;
 
     // ไฟพื้นฐานทำให้รายละเอียดโมเดลยังมองเห็นได้ในโหมด Standby
     const ambientLight = new THREE.HemisphereLight(0x8ecfff, 0x091020, 0.35);
@@ -43,6 +43,8 @@ export default function ImpactModelViewer({ mode }) {
     scene.add(ambientLight, keyLight, fillLight, activeLight);
 
     let model;
+    let fittedCenter;
+    let fittedSize;
     let disposed = false;
     const loader = new ColladaLoader();
     loader.load(
@@ -56,18 +58,16 @@ export default function ImpactModelViewer({ mode }) {
         const largestSide = Math.max(size.x, size.y, size.z);
 
         // จัดกึ่งกลางและปรับขนาดจากขนาดจริงของไฟล์ ไม่ขึ้นกับหน่วยที่ SketchUp export
-        model.position.sub(center);
-        model.scale.setScalar(3.4 / largestSide);
-        model.rotation.y = -0.35;
+        // ตำแหน่งต้องถูกคูณด้วยสเกลด้วย จึงจะไม่เกิดอาการโมเดลชิดกล้อง
+        const scale = 3.4 / largestSide;
+        model.scale.setScalar(scale);
+        model.position.copy(center).multiplyScalar(-scale);
         scene.add(model);
 
         const fittedBounds = new THREE.Box3().setFromObject(model);
-        const fittedCenter = fittedBounds.getCenter(new THREE.Vector3());
-        const fittedSize = fittedBounds.getSize(new THREE.Vector3());
-        const distance = Math.max(fittedSize.x, fittedSize.y, fittedSize.z) * 1.9;
-        camera.position.set(fittedCenter.x + distance * 0.8, fittedCenter.y + distance * 0.52, fittedCenter.z + distance);
-        controls.target.copy(fittedCenter);
-        controls.update();
+        fittedCenter = fittedBounds.getCenter(new THREE.Vector3());
+        fittedSize = fittedBounds.getSize(new THREE.Vector3());
+        frameCamera();
       },
       undefined,
       (error) => console.error('ไม่สามารถโหลดโมเดล 3D ได้', error),
@@ -82,11 +82,27 @@ export default function ImpactModelViewer({ mode }) {
       renderer.toneMappingExposure = isActive ? 1.3 : 0.7;
     }
 
+    // เริ่มด้วยมุมหน้าตรงและเผื่อกรอบรอบโมเดล เพื่อเห็นทั้งชิ้นทันทีที่โหลด
+    function frameCamera() {
+      if (!fittedCenter || !fittedSize) return;
+      const verticalFov = THREE.MathUtils.degToRad(camera.fov);
+      const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
+      const distance = Math.max(
+        fittedSize.y / (2 * Math.tan(verticalFov / 2)),
+        fittedSize.x / (2 * Math.tan(horizontalFov / 2)),
+      ) * 1.28;
+
+      camera.position.set(fittedCenter.x, fittedCenter.y + fittedSize.y * 0.06, fittedCenter.z + distance);
+      controls.target.copy(fittedCenter);
+      controls.update();
+    }
+
     function resize() {
       const { width, height } = container.getBoundingClientRect();
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height, false);
+      frameCamera();
     }
 
     function render() {

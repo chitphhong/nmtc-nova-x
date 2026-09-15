@@ -89,10 +89,10 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.44 }}
-          className="mt-8 sm:mt-10 w-full max-w-3xl glass-dark border-white/20 p-4 sm:p-5"
+          className="mt-8 sm:mt-10 w-full max-w-5xl glass-dark border-white/20 p-4 sm:p-5"
         >
           {/* โมเดลจริงจาก SketchUp: ลากเพื่อหมุน และหมุนล้อเมาส์เพื่อซูม */}
-          <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl border border-white/15 bg-slateink/30">
+          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/15 bg-slateink/30">
             {/* กริดพื้นหลังสไตล์ blueprint */}
             <div
               className="absolute inset-0 opacity-25"
