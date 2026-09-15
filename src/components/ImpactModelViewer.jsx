@@ -14,6 +14,9 @@ const VIEWER_SETTINGS = {
   // ระยะซูมใกล้สุดและไกลสุดที่ผู้ใช้ทำได้ด้วยล้อเมาส์หรือการ pinch
   minZoomDistance: 2.2,
   maxZoomDistance: 15,
+  // จุดศูนย์กลางของ bounding box ในไฟล์ .dae เยื้องไปทางซ้ายกว่าตัวโมเดลที่เห็นจริง
+  // เพิ่ม target ไปทางขวาเพื่อดันชิ้นงานกลับมาอยู่กึ่งกลางเฟรม
+  horizontalCenterCorrection: 0.16,
 };
 
 // ===== จุดปรับแต่งความสว่าง =====
@@ -136,8 +139,13 @@ export default function ImpactModelViewer({ mode }) {
         fittedSize.x / (2 * Math.tan(horizontalFov / 2)),
       ) * framingPadding;
 
-      camera.position.set(fittedCenter.x, fittedCenter.y + fittedSize.y * 0.06, fittedCenter.z + distance);
-      controls.target.copy(fittedCenter);
+      // ชดเชยศูนย์กลางเชิงภาพ: model bounds มีส่วนที่มองไม่เห็น/มีน้ำหนักไม่เท่ากัน
+      // จึงเล็งกล้องเยื้องขวาจาก bounds center เพื่อให้ชิ้นงานที่ผู้ใช้เห็นอยู่กลางเฟรม
+      const visualCenter = fittedCenter.clone();
+      visualCenter.x += fittedSize.x * VIEWER_SETTINGS.horizontalCenterCorrection;
+
+      camera.position.set(visualCenter.x, fittedCenter.y + fittedSize.y * 0.06, fittedCenter.z + distance);
+      controls.target.copy(visualCenter);
       controls.update();
     }
 
