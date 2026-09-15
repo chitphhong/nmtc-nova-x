@@ -17,9 +17,8 @@ const VIEWER_SETTINGS = {
   // จุดศูนย์กลางของ bounding box ในไฟล์ .dae เยื้องไปทางซ้ายกว่าตัวโมเดลที่เห็นจริง
   // เพิ่ม target ไปทางขวาเพื่อดันชิ้นงานกลับมาอยู่กึ่งกลางเฟรม
   horizontalCenterCorrection: 0.0,
-  // ชดเชยภาพที่โมเดลล้นไปทางขวาล่างบนจอมือถือ
-  mobileCenterCorrection: { x: 0.72, y: -0.56 },
-  
+  // ชดเชยภาพที่โมเดลล้นหรือเบี้ยวบนจอมือถือ (0, 0 = กึ่งกลางเรขาคณิตพอดี)
+  mobileCenterCorrection: { x: 0.0, y: 0.0 },
 };
 
 // ===== จุดปรับแต่งความสว่าง =====
@@ -134,7 +133,7 @@ export default function ImpactModelViewer({ mode, className = '' }) {
       if (!fittedCenter || !fittedSize) return;
       // หน้าจอแคบต้องถอยกล้องเพิ่ม เพื่อให้โมเดลเต็มชิ้นและอยู่กลาง viewport
       const isMobile = window.matchMedia('(max-width: 639px)').matches;
-      const framingPadding = isMobile ? 2.5 : VIEWER_SETTINGS.framingPadding;
+      const framingPadding = isMobile ? 1.7 : VIEWER_SETTINGS.framingPadding;
       const verticalFov = THREE.MathUtils.degToRad(camera.fov);
       const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
       const distance = Math.max(
