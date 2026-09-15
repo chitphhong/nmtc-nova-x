@@ -9,6 +9,9 @@ export const mockStats = {
   pet_bottles: 100000,          // จำนวนขวด PET ที่แปรรูป
   vinyl_banner_sqm: 860,       // ไวนิลป้ายโฆษณา (ตารางเมตร)
   plastic_cups: 28500,         // จำนวนแก้วพลาสติกจากงานอีเวนต์
+  furniture_boards: 0,         // ฟิวเจอร์บอร์ด (แผ่น)
+  plastic_trays: 0,            // ถาดพลาสติก (ถาด)
+  plastic_plates: 0,           // จานพลาสติก (จาน)
   updated_at: '2026-09-01T09:00:00Z',
 };
 
