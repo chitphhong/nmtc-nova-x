@@ -16,7 +16,7 @@ const VIEWER_SETTINGS = {
   maxZoomDistance: 15,
   // จุดศูนย์กลางของ bounding box ในไฟล์ .dae เยื้องไปทางซ้ายกว่าตัวโมเดลที่เห็นจริง
   // เพิ่ม target ไปทางขวาเพื่อดันชิ้นงานกลับมาอยู่กึ่งกลางเฟรม
-  horizontalCenterCorrection: 0.16,
+  horizontalCenterCorrection: 0.0,
 };
 
 // ===== จุดปรับแต่งความสว่าง =====
