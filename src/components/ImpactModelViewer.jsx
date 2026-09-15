@@ -3,6 +3,18 @@ import * as THREE from 'three';
 import { ColladaLoader } from 'three/addons/loaders/ColladaLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+// ===== จุดปรับแต่งมุมมองโมเดล =====
+// ปรับเฉพาะค่าด้านล่างนี้ได้โดยไม่ต้องแก้สูตรกล้อง
+const VIEWER_SETTINGS = {
+  // ความกว้าง/สูงด้านที่ยาวที่สุดของโมเดลในโลก Three.js (มีผลกับระยะซูม)
+  modelSpan: 3.4,
+  // ระยะเผื่อรอบโมเดลตอนเปิดหน้า: ค่ายิ่งมาก = กล้องยิ่งไกล/เห็นขอบมาก
+  framingPadding: 1.25,
+  // ระยะซูมใกล้สุดและไกลสุดที่ผู้ใช้ทำได้ด้วยล้อเมาส์หรือการ pinch
+  minZoomDistance: 2.2,
+  maxZoomDistance: 15,
+};
+
 // แสดงโมเดล SketchUp (.dae) และสร้างระบบไฟจากฝั่งเว็บ
 export default function ImpactModelViewer({ mode }) {
   const containerRef = useRef(null);
@@ -29,8 +41,8 @@ export default function ImpactModelViewer({ mode }) {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enablePan = false;
-    controls.minDistance = 2.2;
-    controls.maxDistance = 15;
+    controls.minDistance = VIEWER_SETTINGS.minZoomDistance;
+    controls.maxDistance = VIEWER_SETTINGS.maxZoomDistance;
 
     // ไฟพื้นฐานทำให้รายละเอียดโมเดลยังมองเห็นได้ในโหมด Standby
     const ambientLight = new THREE.HemisphereLight(0x8ecfff, 0x091020, 0.35);
@@ -42,7 +54,7 @@ export default function ImpactModelViewer({ mode }) {
     activeLight.position.set(0, 2.4, 2.5);
     scene.add(ambientLight, keyLight, fillLight, activeLight);
 
-    let model;
+    let modelGroup;
     let fittedCenter;
     let fittedSize;
     let disposed = false;
@@ -51,20 +63,24 @@ export default function ImpactModelViewer({ mode }) {
       '/models/impact2013plants.dae',
       (collada) => {
         if (disposed) return;
-        model = collada.scene;
-        const bounds = new THREE.Box3().setFromObject(model);
-        const center = bounds.getCenter(new THREE.Vector3());
+        // ใช้ Group ครอบโมเดลเพื่อเก็บค่า scale/rotation ดั้งเดิมจากไฟล์ .dae ไว้
+        // สำคัญ: SketchUp export มักมี scale หน่วยเมตรติดมา ห้ามเขียนทับโดยตรง
+        modelGroup = new THREE.Group();
+        modelGroup.add(collada.scene);
+        scene.add(modelGroup);
+
+        const bounds = new THREE.Box3().setFromObject(modelGroup);
         const size = bounds.getSize(new THREE.Vector3());
         const largestSide = Math.max(size.x, size.y, size.z);
 
-        // จัดกึ่งกลางและปรับขนาดจากขนาดจริงของไฟล์ ไม่ขึ้นกับหน่วยที่ SketchUp export
-        // ตำแหน่งต้องถูกคูณด้วยสเกลด้วย จึงจะไม่เกิดอาการโมเดลชิดกล้อง
-        const scale = 3.4 / largestSide;
-        model.scale.setScalar(scale);
-        model.position.copy(center).multiplyScalar(-scale);
-        scene.add(model);
+        // ย่อ/ขยายที่ Group แทนตัวโมเดล จึงไม่ทำลายหน่วยและแกนที่ ColladaLoader แปลงไว้
+        modelGroup.scale.setScalar(VIEWER_SETTINGS.modelSpan / largestSide);
+        const scaledBounds = new THREE.Box3().setFromObject(modelGroup);
+        const scaledCenter = scaledBounds.getCenter(new THREE.Vector3());
+        // Group ไม่มีการหมุนหรือ scale เดิม จึงเลื่อนด้วยค่าศูนย์กลางนี้ได้ตรงตำแหน่ง
+        modelGroup.position.sub(scaledCenter);
 
-        const fittedBounds = new THREE.Box3().setFromObject(model);
+        const fittedBounds = new THREE.Box3().setFromObject(modelGroup);
         fittedCenter = fittedBounds.getCenter(new THREE.Vector3());
         fittedSize = fittedBounds.getSize(new THREE.Vector3());
         frameCamera();
@@ -90,7 +106,7 @@ export default function ImpactModelViewer({ mode }) {
       const distance = Math.max(
         fittedSize.y / (2 * Math.tan(verticalFov / 2)),
         fittedSize.x / (2 * Math.tan(horizontalFov / 2)),
-      ) * 1.28;
+      ) * VIEWER_SETTINGS.framingPadding;
 
       camera.position.set(fittedCenter.x, fittedCenter.y + fittedSize.y * 0.06, fittedCenter.z + distance);
       controls.target.copy(fittedCenter);
