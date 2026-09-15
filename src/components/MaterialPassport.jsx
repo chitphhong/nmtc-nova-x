@@ -150,7 +150,7 @@ export default function MaterialPassport() {
         {/* ===== ตัวเลขย่อยของแหล่งวัสดุ: 1 คอลัมน์มือถือ → 3 คอลัมน์เดสก์ท็อป ===== */}
         <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[
-            { label: 'ฝาขวด PET', value: stats?.pet_bottles ?? 0, unit: 'ขวด', color: 'text-azure' },
+            { label: 'ฝาขวดพลาสติก', value: stats?.pet_bottles ?? 0, unit: 'ขวด', color: 'text-azure' },
             { label: 'ฟิวเจอร์บอร์ด', value: stats?.furniture_boards ?? 0, unit: 'แผ่น', color: 'text-azure' },
             { label: 'ถาดพลาสติก', value: stats?.plastic_trays ?? 0, unit: 'ถาด', color: 'text-azure' },
             { label: 'จานพลาสติก', value: stats?.plastic_plates ?? 0, unit: 'จาน', color: 'text-azure' },

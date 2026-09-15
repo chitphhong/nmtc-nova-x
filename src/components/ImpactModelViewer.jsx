@@ -17,7 +17,7 @@ const VIEWER_SETTINGS = {
   // จุดศูนย์กลางของ bounding box ในไฟล์ .dae เยื้องไปทางซ้ายกว่าตัวโมเดลที่เห็นจริง
   // เพิ่ม target ไปทางขวาเพื่อดันชิ้นงานกลับมาอยู่กึ่งกลางเฟรม
   horizontalCenterCorrection: 0.0,
-   mobileCenterCorrection: { x: 0.42, y: -0.28 },
+  mobileCenterCorrection: { x: 0.42, y: -0.28 },
   
 };
 
@@ -144,9 +144,14 @@ export default function ImpactModelViewer({ mode, className = '' }) {
       // ชดเชยศูนย์กลางเชิงภาพ: model bounds มีส่วนที่มองไม่เห็น/มีน้ำหนักไม่เท่ากัน
       // จึงเล็งกล้องเยื้องขวาจาก bounds center เพื่อให้ชิ้นงานที่ผู้ใช้เห็นอยู่กลางเฟรม
       const visualCenter = fittedCenter.clone();
-      visualCenter.x += fittedSize.x * VIEWER_SETTINGS.horizontalCenterCorrection;
+      if (isMobile) {
+        visualCenter.x += fittedSize.x * VIEWER_SETTINGS.mobileCenterCorrection.x;
+        visualCenter.y += fittedSize.y * VIEWER_SETTINGS.mobileCenterCorrection.y;
+      } else {
+        visualCenter.x += fittedSize.x * VIEWER_SETTINGS.horizontalCenterCorrection;
+      }
 
-      camera.position.set(visualCenter.x, fittedCenter.y + fittedSize.y * 0.06, fittedCenter.z + distance);
+      camera.position.set(visualCenter.x, visualCenter.y + fittedSize.y * 0.06, visualCenter.z + distance);
       controls.target.copy(visualCenter);
       controls.update();
     }

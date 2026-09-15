@@ -50,7 +50,7 @@ export default function Footer() {
 
         <div className="mt-10 border-t border-white/10 pt-6 text-center">
           <p className="text-[11px] font-light text-white/40">
-            © 2026 IMPACT RE:BUILD · IMPACT Rise Up Competition
+            © 2026 IMPACT NMTC NOVA · IMPACT Rise Up Competition
           </p>
         </div>
       </div>
