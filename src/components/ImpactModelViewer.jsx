@@ -20,7 +20,7 @@ const VIEWER_SETTINGS = {
 const LIGHTING_SETTINGS = {
   standby: {
     // แสงพื้นฐานเพื่อให้ยังมองเห็นทรงโมเดลขณะไฟหลักดับ
-    ambient: 0.26,
+    ambient: 0.40,
     key: 0.75,
     cyan: 4,
     gold: 0,
@@ -32,7 +32,7 @@ const LIGHTING_SETTINGS = {
     ambient: 0.62,
     key: 2.7,
     cyan: 14,
-    gold: 50,
+    gold: 30,
     exposure: 1,
   },
 };
