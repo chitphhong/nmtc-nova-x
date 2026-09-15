@@ -42,7 +42,7 @@ const LIGHTING_SETTINGS = {
 };
 
 // แสดงโมเดล SketchUp (.dae) และสร้างระบบไฟจากฝั่งเว็บ
-export default function ImpactModelViewer({ mode }) {
+export default function ImpactModelViewer({ mode, className = '' }) {
   const containerRef = useRef(null);
   const modeRef = useRef(mode);
 
@@ -177,5 +177,11 @@ export default function ImpactModelViewer({ mode }) {
     };
   }, []);
 
-  return <div ref={containerRef} className="absolute inset-0 cursor-grab touch-none active:cursor-grabbing" aria-label="โมเดล 3 มิติ หมุนดูได้ด้วยการลาก" />;
+  return (
+    <div
+      ref={containerRef}
+      className={`cursor-grab touch-none active:cursor-grabbing ${className}`}
+      aria-label="โมเดล 3 มิติ หมุนดูได้ด้วยการลาก"
+    />
+  );
 }

@@ -92,7 +92,7 @@ export default function HeroSection() {
           className="mt-8 sm:mt-10 w-full max-w-5xl glass-dark border-white/20 p-4 sm:p-5"
         >
           {/* โมเดลจริงจาก SketchUp: ลากเพื่อหมุน และหมุนล้อเมาส์เพื่อซูม */}
-          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/15 bg-slateink/30">
+          <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/15 bg-slateink/30">
             {/* กริดพื้นหลังสไตล์ blueprint */}
             <div
               className="absolute inset-0 opacity-25"
@@ -102,7 +102,7 @@ export default function HeroSection() {
                 backgroundSize: '32px 32px',
               }}
             />
-            <ImpactModelViewer mode={mode} />
+            <ImpactModelViewer mode={mode} className="absolute inset-0 grid place-items-center" />
             {/* วนลูปสร้างจุด Hotspot ตามพิกัด % ที่กำหนดใน mockData */}
             {hotspots.map((spot, i) => (
               <button
@@ -135,7 +135,7 @@ export default function HeroSection() {
             {/* ป้ายสรุปมิติรวมมุมล่างซ้าย */}
             <div className="absolute bottom-3 left-3 rounded-lg border border-white/20 bg-slateink/60 px-3 py-1.5 backdrop-blur">
               <span className="text-[11px] sm:text-xs font-light tracking-wider text-white/85">
-                3.00 m × 2.00 m × 2.00 m
+                3.00 m × 1.80 m × 2.00 m
               </span>
             </div>
           </div>
