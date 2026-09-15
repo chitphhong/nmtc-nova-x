@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { lightingModes, hotspots } from '../data/mockdata';
+import ImpactModelViewer from './ImpactModelViewer';
 
 export default function HeroSection() {
   // state: โหมดแสงที่ผู้ใช้เลือกอยู่ (standby / approach / active / photo)
@@ -90,7 +91,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.44 }}
           className="mt-8 sm:mt-10 w-full max-w-3xl glass-dark border-white/20 p-4 sm:p-5"
         >
-          {/* พื้นที่แสดง Hotspot จำลองสัดส่วนประติมากรรม */}
+          {/* โมเดลจริงจาก SketchUp: ลากเพื่อหมุน และหมุนล้อเมาส์เพื่อซูม */}
           <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl border border-white/15 bg-slateink/30">
             {/* กริดพื้นหลังสไตล์ blueprint */}
             <div
@@ -101,6 +102,7 @@ export default function HeroSection() {
                 backgroundSize: '32px 32px',
               }}
             />
+            <ImpactModelViewer mode={mode} />
             {/* วนลูปสร้างจุด Hotspot ตามพิกัด % ที่กำหนดใน mockData */}
             {hotspots.map((spot, i) => (
               <button

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { fetchWithFallback } from '../lib/supabaseClient';
 import { mockTeam } from '../data/mockdata';
 
-export default function TeamShowcase() {
+export default function TeamShowcase({ hideHeader = false }) {
   // state: รายชื่อทีมงานและที่ปรึกษา
   const [team, setTeam] = useState(mockTeam);
 
@@ -24,12 +24,15 @@ export default function TeamShowcase() {
 
   // ตัวแปร animation สำหรับ stagger ทั้งกริด
   const container = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.09 } },
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08 },
+    },
   };
   const item = {
-    hidden: { opacity: 0, y: 34 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
   };
 
   // คอมโพเนนต์ย่อยการ์ดบุคคล ใช้ซ้ำทั้งสองกลุ่ม
@@ -60,58 +63,68 @@ export default function TeamShowcase() {
   );
 
   return (
-    <section id="team" className="relative py-16 sm:py-20 lg:py-28 bg-gradient-to-b from-white to-surface">
+    <section id="team" className="relative py-12 sm:py-16 lg:py-24 bg-gradient-to-b from-white to-surface">
       <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-16">
-        {/* หัวข้อ Section จัดกลางบนทุกจอ */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-          className="mx-auto max-w-3xl text-center"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border border-azure/30 bg-azure/8 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-wider text-azure">
-            NMTC NOVA Team
-          </span>
-          <h2 className="h-fluid mt-4 text-slateink">
-            เบื้องหลัง <span className="text-azure">RE:BUILD</span>
-          </h2>
-          <p className="mt-4 text-sm sm:text-base font-light leading-relaxed text-slateink/65">
-            ทีมนักออกแบบ และอาจารย์ที่ปรึกษา ที่ร่วมกันพัฒนาแนวคิดจนกลายเป็นประติมากรรมใช้งานจริง
-          </p>
-        </motion.div>
+        {/* หัวข้อ Section (ซ่อนได้เมื่อถูกเรียกจากหน้า TeamPage ที่มี Hero Banner อยู่แล้ว) */}
+        {!hideHeader && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-3xl text-center"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full border border-azure/30 bg-azure/8 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-wider text-azure">
+              NMTC NOVA Team
+            </span>
+            <h2 className="h-fluid mt-4 text-slateink">
+              เบื้องหลัง <span className="text-azure">RE:BUILD</span>
+            </h2>
+            <p className="mt-4 text-sm sm:text-base font-light leading-relaxed text-slateink/65">
+              ทีมนักออกแบบ และอาจารย์ที่ปรึกษา ที่ร่วมกันพัฒนาแนวคิดจนกลายเป็นประติมากรรมใช้งานจริง
+            </p>
+          </motion.div>
+        )}
 
         {/* กริดสมาชิกทีม: 1 → 2 (sm) → 4 (lg) คอลัมน์ */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-80px' }}
-          className="mt-10 sm:mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
-        >
-          {members.map((p) => <PersonCard key={p.id} p={p} />)}
-        </motion.div>
+        <div className="mt-6 sm:mt-10">
+          <h3 className="mb-6 text-center text-lg sm:text-xl font-semibold text-slateink">
+            สมาชิกทีม <span className="text-azure">Team Members</span>
+          </h3>
+          <motion.div
+            key={`members-${members.length}`}
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+          >
+            {members.map((p) => <PersonCard key={p.id} p={p} />)}
+          </motion.div>
+        </div>
 
         {/* กลุ่มอาจารย์ที่ปรึกษา */}
-        <h3 className="mt-14 sm:mt-16 text-center text-lg sm:text-xl font-semibold text-slateink">
-          อาจารย์ที่ปรึกษา <span className="text-champagne">NMTC NOVA Advisors</span>
-        </h3>
-        <center>
+        <div className="mt-14 sm:mt-16">
+          <h3 className="text-center text-lg sm:text-xl font-semibold text-slateink">
+            อาจารย์ที่ปรึกษา <span className="text-champagne">NMTC NOVA Advisors</span>
+          </h3>
           <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-80px' }}
-          className="mx-auto mt-6 grid max-w-3xl grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6"
-        >
-          {advisors.map((p) => <PersonCard key={p.id} p={p} gold />)}
-        </motion.div>
-        </center>
-        
+            key={`advisors-${advisors.length}`}
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="mx-auto mt-6 flex flex-wrap justify-center gap-4 sm:gap-6 max-w-3xl"
+          >
+            {advisors.map((p) => (
+              <div key={p.id} className="w-full sm:w-[calc(50%-12px)] max-w-sm">
+                <PersonCard p={p} gold />
+              </div>
+            ))}
+          </motion.div>
+        </div>
 
         {/* เครดิตสถาบันและการแข่งขัน */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
