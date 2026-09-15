@@ -63,7 +63,7 @@ export default function Navbar() {
               />
               <span className="leading-tight">
                 <span className="block text-base sm:text-lg font-bold tracking-tight text-slateink">
-                  <span className="text-azure">RE BUILD</span>
+                  <span className="text-azure">NMTC NOVA</span>
                 </span>
                 <span className="hidden sm:block text-[10px] font-light tracking-[0.2em] text-slateink/60">
                   FROM WASTE TO WONDER

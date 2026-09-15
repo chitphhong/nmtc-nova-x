@@ -11,13 +11,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <p className="text-xl font-bold">
-              IMPACT <span className="text-champagne">RE:BUILD</span>
+              IMPACT <span className="text-champagne">NMTC NOVA</span>
             </p>
             <p className="mt-2 text-xs font-light tracking-[0.2em] text-cyanglow">
               FROM WASTE TO WONDER
             </p>
             <p className="mt-3 max-w-sm text-xs font-light leading-relaxed text-white/55">
-              ประติมากรรมใช้งานได้จริงจากขยะพลาสติกในงานอีเวนต์ ขนาด 3.00 × 2.00 × 2.00 เมตร
+              ประติมากรรมใช้งานได้จริงจากขยะพลาสติกในงานอีเวนต์ ขนาด 3.00 × 1.80 × 2.00 เมตร
             </p>
           </div>
 
