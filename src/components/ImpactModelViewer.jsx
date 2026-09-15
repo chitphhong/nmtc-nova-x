@@ -14,12 +14,10 @@ const VIEWER_SETTINGS = {
   // ระยะซูมใกล้สุดและไกลสุดที่ผู้ใช้ทำได้ด้วยล้อเมาส์หรือการ pinch
   minZoomDistance: 2.2,
   maxZoomDistance: 15,
-  // จุดศูนย์กลางของประติมากรรมเยื้องไปทางขวาล่างเมื่อเทียบกับ Bounding Box รวม
-  // เลื่อนเป้าหมายกล้องเพื่อดึงตัวชิ้นงานให้อยู่ตรงกลางจอพอดี
-  horizontalCenterCorrection: 0.35,
-  verticalCenterCorrection: -0.25,
-  // สำหรับจอมือถือ
-  mobileCenterCorrection: { x: 0.35, y: -0.28 },
+  // โมเดลใหม่จัดกึ่งกลาง Origin แล้ว ไม่ต้องชดเชย (0 = ตรงกลางพอดี)
+  horizontalCenterCorrection: 0.0,
+  verticalCenterCorrection: 0.0,
+  mobileCenterCorrection: { x: 0.0, y: 0.0 },
 };
 
 // ===== จุดปรับแต่งความสว่าง =====
