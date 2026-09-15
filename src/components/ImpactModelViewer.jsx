@@ -25,15 +25,15 @@ const LIGHTING_SETTINGS = {
     cyan: 4,
     gold: 0,
     // การรับแสงรวมของภาพ: เพิ่มทีละ 0.05 จะควบคุมได้ง่ายที่สุด
-    exposure: 0.88,
+    exposure: 0.8,
   },
   active: {
     // แสงเมื่อใช้งานจริง: ไฟทองคือไฟหลัก ส่วน cyan ช่วยให้เงาไม่ดำทึบ
     ambient: 0.62,
     key: 2.7,
-    cyan: 16,
-    gold: 68,
-    exposure: 1.12,
+    cyan: 14,
+    gold: 50,
+    exposure: 1,
   },
 };
 
