@@ -9,7 +9,7 @@ export default function MaterialsPage() {
   return (
     <>
       {/* ===== Page Hero Banner ===== */}
-      <section className="relative pt-32 pb-12 sm:pt-36 sm:pb-16 overflow-hidden bg-gradient-to-b from-azure/8 to-surface">
+      <section className="relative pt-32 pb-4 sm:pt-36 sm:pb-6 overflow-hidden bg-gradient-to-b from-azure/8 to-surface">
         {/* ลายกริดพื้นหลังแบบ blueprint */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.07]"

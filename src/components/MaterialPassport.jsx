@@ -56,7 +56,7 @@ export default function MaterialPassport() {
   }, []);
 
   return (
-    <section id="passport" className="relative py-16 sm:py-20 lg:py-28">
+    <section id="passport" className="relative pt-2 pb-16 sm:pt-4 sm:pb-20">
       {/* พื้นหลังไล่เฉดอ่อนสร้างมิติ */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-surface via-azure/5 to-surface" />
 
@@ -66,13 +66,13 @@ export default function MaterialPassport() {
 
         {/* แจ้งเตือนเมื่อยังใช้ข้อมูลจำลอง (แสดงเฉพาะตอน dev) */}
         {!loading && isMock && (
-          <p className="mt-4 text-[11px] font-light text-champagne">
+          <p className="mt-2 text-[11px] font-light text-champagne">
             * กำลังแสดงข้อมูลจำลอง — เชื่อมต่อ Supabase เพื่อดูตัวเลขเรียลไทม์
           </p>
         )}
 
         {/* ===== การ์ดสถิติหลัก 2 ใบ ===== */}
-        <div className="mt-3 sm:mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="mt-2 sm:mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {/* การ์ดที่ 1: พลาสติกรีไซเคิล */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
