@@ -179,59 +179,115 @@ export default function MaterialPassport() {
           ))}
         </div>
 
-        {/* ===== เส้นทางการแปรรูปวัสดุ ===== */}
+        {/* ===== เส้นทางการแปรรูปวัสดุ (2 คอลัมน์ 2 บรรทัด) ===== */}
         <div className="mt-12 sm:mt-16">
           <h3 className="text-xl sm:text-2xl font-semibold text-slateink">
-            เส้นทางการแปรรูป <span className="text-azure">Waste → Terrazzo</span>
+            เส้นทางการแปรรูป <span className="text-azure">Waste → Transformation</span>
           </h3>
 
-          <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
             {materials.map((mat, i) => (
               <motion.article
-                key={mat.id}
-                initial={{ opacity: 0, y: 40 }}
+                key={mat.id || i}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.55, delay: i * 0.12 }}
-                whileHover={{ y: -6 }}
-                className="glass-card group relative overflow-hidden p-6 transition-shadow duration-300 hover:shadow-xl"
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="glass-card group relative flex flex-col justify-between overflow-hidden p-6 transition-all duration-300 hover:shadow-xl"
               >
-                {/* แถบสีบนหัวการ์ดตามสีประจำวัสดุ */}
-                <span className="absolute inset-x-0 top-0 h-1" style={{ background: mat.color }} />
+                <div>
+                  {/* แถบสีบนหัวการ์ดตามสีประจำวัสดุ */}
+                  <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: mat.color }} />
 
-                {/* ตัวเลขลำดับขั้นตอน */}
-                <span className="text-5xl font-bold text-slateink/8 leading-none">
-                  0{i + 1}
-                </span>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <span className="text-4xl sm:text-5xl font-extrabold text-slateink/15 leading-none">
+                        0{i + 1}
+                      </span>
+                      <h4 className="mt-2 text-lg sm:text-xl font-bold text-slateink">{mat.name}</h4>
+                      <p className="text-xs font-light text-slateink/60">แหล่งที่มา: {mat.source}</p>
+                    </div>
 
-                <h4 className="mt-2 text-base sm:text-lg font-semibold text-slateink">{mat.name}</h4>
-                <p className="mt-1 text-xs font-light text-slateink/55">แหล่งที่มา: {mat.source}</p>
+                    {/* สัดส่วนวัสดุ */}
+                    {mat.ratio && (
+                      <span
+                        className="rounded-full px-3 py-1 text-xs font-semibold tracking-wider"
+                        style={{ backgroundColor: `${mat.color}18`, color: mat.color }}
+                      >
+                        {mat.ratio}%
+                      </span>
+                    )}
+                  </div>
 
-                {/* ลูกศรแสดงผลลัพธ์หลังแปรรูป */}
-                <div className="mt-4 flex items-start gap-2 rounded-xl bg-slateink/[0.03] p-3">
-                  <svg className="mt-0.5 h-4 w-4 shrink-0" style={{ color: mat.color }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                  <p className="text-xs sm:text-sm font-light leading-relaxed text-slateink/75">{mat.output}</p>
+                  {/* คำอธิบายกระบวนการแปรรูป */}
+                  <div className="mt-4 flex items-start gap-2.5 rounded-xl bg-slateink/[0.03] p-3 border border-slateink/5">
+                    <svg className="mt-0.5 h-4 w-4 shrink-0" style={{ color: mat.color }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                    <p className="text-xs sm:text-sm font-medium leading-relaxed text-slateink/80">{mat.output}</p>
+                  </div>
+
+                  {/* แกลเลอรีรูปภาพตัวอย่างวัสดุ (อย่างน้อย 3 รูป) */}
+                  <div className="mt-4">
+                    <p className="text-[11px] font-medium text-slateink/50 mb-2">ภาพตัวอย่างวัสดุ &amp; ขั้นตอน:</p>
+                    <div className="grid grid-cols-3 gap-2">
+                      {(mat.images && mat.images.length > 0
+                        ? mat.images
+                        : [null, null, null]
+                      ).slice(0, 3).map((imgUrl, imgIdx) => (
+                        <div
+                          key={imgIdx}
+                          className="relative aspect-square overflow-hidden rounded-lg bg-slateink/5 border border-slateink/10 flex items-center justify-center group/img"
+                        >
+                          {imgUrl ? (
+                            <img
+                              src={imgUrl}
+                              alt={`${mat.name} ${imgIdx + 1}`}
+                              className="h-full w-full object-cover transition-transform duration-300 group-hover/img:scale-110"
+                              onError={(e) => {
+                                // ถ้ายังไม่มีรูปจริง ให้แสดง placeholder สวยๆ
+                                e.target.style.display = 'none';
+                                e.target.nextSibling.style.display = 'flex';
+                              }}
+                            />
+                          ) : null}
+                          <div
+                            className={`flex flex-col items-center justify-center p-2 text-center ${
+                              imgUrl ? 'hidden' : 'flex'
+                            }`}
+                          >
+                            <svg className="h-5 w-5 text-slateink/30 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                              <circle cx="8.5" cy="8.5" r="1.5" />
+                              <polyline points="21 15 16 10 5 21" />
+                            </svg>
+                            <span className="text-[10px] text-slateink/40">รูปที่ {imgIdx + 1}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
-                {/* สัดส่วนวัสดุในโครงสร้าง */}
-                <div className="mt-4">
-                  <div className="flex items-center justify-between text-[11px] font-medium text-slateink/60">
-                    <span>สัดส่วนในโครงสร้าง</span>
-                    <span style={{ color: mat.color }}>{mat.ratio}%</span>
+                {/* แถบเปอร์เซ็นต์สัดส่วน */}
+                {mat.ratio && (
+                  <div className="mt-5 pt-3 border-t border-slateink/5">
+                    <div className="flex items-center justify-between text-[11px] font-medium text-slateink/60 mb-1.5">
+                      <span>สัดส่วนในโครงสร้าง</span>
+                      <span style={{ color: mat.color }}>{mat.ratio}%</span>
+                    </div>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-slateink/8">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${mat.ratio}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.1, delay: 0.2 + i * 0.1 }}
+                        className="h-full rounded-full"
+                        style={{ background: mat.color }}
+                      />
+                    </div>
                   </div>
-                  <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slateink/8">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${mat.ratio}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.1, delay: 0.2 + i * 0.1 }}
-                      className="h-full rounded-full"
-                      style={{ background: mat.color }}
-                    />
-                  </div>
-                </div>
+                )}
               </motion.article>
             ))}
           </div>
