@@ -62,24 +62,7 @@ export default function MaterialPassport() {
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-8 lg:px-16">
         {/* ===== หัวข้อ Section ===== */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border border-azure/30 bg-azure/8 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-wider text-azure">
-            ข้อมูลที่มาของวัสดุ
-          </span>
-          <h2 className="h-fluid mt-4 text-slateink">
-            ทุกกิโลกรัม <span className="text-azure">มีที่มา</span>
-          </h2>
-          <p className="mt-4 text-sm sm:text-base font-light leading-relaxed text-slateink/65">
-            บันทึกเส้นทางของวัสดุทุกชิ้น ตั้งแต่ขยะที่เกิดขึ้นในงานอีเวนต์
-            จนกลายเป็นแผ่นเทอราซโซที่ประกอบเป็นประติมากรรม ตรวจสอบย้อนกลับได้ทั้งหมด
-          </p>
-        </motion.div>
+        
 
         {/* แจ้งเตือนเมื่อยังใช้ข้อมูลจำลอง (แสดงเฉพาะตอน dev) */}
         {!loading && isMock && (
@@ -171,9 +154,8 @@ export default function MaterialPassport() {
         {/* ===== ตัวเลขย่อยของแหล่งวัสดุ: 1 คอลัมน์มือถือ → 3 คอลัมน์เดสก์ท็อป ===== */}
         <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           {[
-            { label: 'ขวด PET', value: stats.pet_bottles, unit: 'ขวด', color: 'text-azure' },
-            { label: 'ป้ายไวนิล', value: stats.vinyl_banner_sqm, unit: 'ตร.ม.', color: 'text-champagne' },
-            { label: 'แก้วพลาสติก', value: stats.plastic_cups, unit: 'ใบ', color: 'text-cyanglow' },
+            { label: 'ฝาขวด PET', value: stats.pet_bottles, unit: 'ขวด', color: 'text-azure' },
+            
           ].map((item, i) => (
             <motion.div
               key={item.label}
