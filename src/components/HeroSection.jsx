@@ -31,58 +31,60 @@ export default function HeroSection() {
 
       {/* ===== เนื้อหา Hero ===== */}
       <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-center px-4 sm:px-8 lg:px-16 pt-24 pb-16 sm:pt-28">
-        {/* แบดจ์ชื่อการแข่งขัน */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex w-fit items-center gap-2 rounded-full border border-champagne/60 bg-champagne/10 px-3 sm:px-4 py-2 backdrop-blur-md shadow-gold"
-        >
-          {/* จุดกระพริบสื่อถึงสถานะ live */}
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-champagne opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-champagne" />
-          </span>
-          <span className="text-[11px] sm:text-xs font-medium tracking-wider text-champagne">
-            IMPACT Rise Up
-          </span>
-        </motion.div>
+        <div className="mx-auto w-full max-w-5xl">
+          {/* แบดจ์ชื่อการแข่งขัน */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-champagne/60 bg-champagne/10 px-3 sm:px-4 py-2 backdrop-blur-md shadow-gold"
+          >
+            {/* จุดกระพริบสื่อถึงสถานะ live */}
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-champagne opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-champagne" />
+            </span>
+            <span className="text-[11px] sm:text-xs font-medium tracking-wider text-champagne">
+              IMPACT Rise Up
+            </span>
+          </motion.div>
 
-        {/* หัวข้อหลักภาษาไทย */}
-        <motion.h1
-          initial={{ opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.12 }}
-          className="mt-5 sm:mt-6 max-w-4xl text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] tracking-tight text-white"
-        >
-          FROM WASTE{' '}
-          {/* ไล่เฉดทอง→ไซแอนบนคำสำคัญ */} <br />
-          <span className="bg-gradient-to-r from-champagne via-champagne to-cyanglow bg-clip-text text-transparent">
-            TO WONDER
-          </span>
-        </motion.h1>
+          {/* หัวข้อหลักภาษาไทย */}
+          <motion.h1
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.12 }}
+            className="mt-5 sm:mt-6 max-w-4xl text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] tracking-tight text-white"
+          >
+            FROM WASTE{' '}
+            {/* ไล่เฉดทอง→ไซแอนบนคำสำคัญ */} <br />
+            <span className="bg-gradient-to-r from-champagne via-champagne to-cyanglow bg-clip-text text-transparent">
+              TO WONDER
+            </span>
+          </motion.h1>
 
-        {/* Tagline ภาษาอังกฤษ */}
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.24 }}
-          className="mt-4 text-sm sm:text-base md:text-lg font-light tracking-[0.28em] text-white/70"
-        >
-          หมดหน้าที่ แต่ไม่หมดคุณค่า
-        </motion.p>
+          {/* Tagline ภาษาอังกฤษ */}
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.24 }}
+            className="mt-4 text-sm sm:text-base md:text-lg font-light tracking-[0.28em] text-white/70"
+          >
+            หมดหน้าที่ แต่ไม่หมดคุณค่า
+          </motion.p>
 
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.32 }}
-          className="mt-4 max-w-2xl text-sm sm:text-base font-light leading-relaxed text-white/75"
-        >
-          แนวคิด " IMPACT RE: BUILD
-          คือ แนวคิดการนำพลาสติกและวัสดุที่หมดหน้าที่จากงาน EVENT ของ IMPACT กลับเข้าสู่กระบวนการ RECYCLE และ UPCYCLE เพื่อสร้างเป็นประติมากรรมเชิงฟังก์ชันภายใต้ระบบ GEOMETRIC MODULAR DESIGN โดยใช้ TRIANGLE, HEXAGON และ CUBE เป็นหน่วยพื้นฐานที่สามารถถอด ประกอบ ปรับเปลี่ยนและนำกลับมาใช้ซ้ำได้ ผลงานผสานฟังก์ชันที่นั่ง กระทางต้นไม้ แสงสว่าง และ PHOTO SPOT เข้าด้วยกันพร้อมน้ำนวัตกรรม MATERIALS PASSPORTS มาเพิ่มประสบการณ์ให้ผู้ใช้งาน ทำให้ผลงานไม่ได้เป็นเพียง
-          ประติมากรรมตกแต่ง แต่เป็นพื้นที่ที่ผู้คนสามารถใช้ พักผ่อน เรียนรู้ และมีส่วนร่วมกับแนวคิด CIRCULAR ECONOMY ได้จริง ภายใต้แนวคิด
-          " หมดหน้าที่ ไม่ได้หมดคุณค่า "
-        </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.32 }}
+            className="mt-4 max-w-2xl text-sm sm:text-base font-light leading-relaxed text-white/75"
+          >
+            แนวคิด " IMPACT RE: BUILD
+            คือ แนวคิดการนำพลาสติกและวัสดุที่หมดหน้าที่จากงาน EVENT ของ IMPACT กลับเข้าสู่กระบวนการ RECYCLE และ UPCYCLE เพื่อสร้างเป็นประติมากรรมเชิงฟังก์ชันภายใต้ระบบ GEOMETRIC MODULAR DESIGN โดยใช้ TRIANGLE, HEXAGON และ CUBE เป็นหน่วยพื้นฐานที่สามารถถอด ประกอบ ปรับเปลี่ยนและนำกลับมาใช้ซ้ำได้ ผลงานผสานฟังก์ชันที่นั่ง กระทางต้นไม้ แสงสว่าง และ PHOTO SPOT เข้าด้วยกันพร้อมน้ำนวัตกรรม MATERIALS PASSPORTS มาเพิ่มประสบการณ์ให้ผู้ใช้งาน ทำให้ผลงานไม่ได้เป็นเพียง
+            ประติมากรรมตกแต่ง แต่เป็นพื้นที่ที่ผู้คนสามารถใช้ พักผ่อน เรียนรู้ และมีส่วนร่วมกับแนวคิด CIRCULAR ECONOMY ได้จริง ภายใต้แนวคิด
+            " หมดหน้าที่ ไม่ได้หมดคุณค่า "
+          </motion.p>
+        </div>
 
         {/* ===== Interactive Viewport: Hotspot มิติ + โหมดแสง ===== */}
         <motion.div

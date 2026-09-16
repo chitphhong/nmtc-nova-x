@@ -118,8 +118,8 @@ export const lightingModes = [
 // จุด Hotspot บอกมิติของประติมากรรม (ตำแหน่งเป็น % ของ container)
 export const hotspots = [
   { id: 'w', label: 'กว้าง', value: '3.00 m', x: 50, y: 88 },
-  { id: 'h', label: 'สูง', value: '2.00 m', x: 8, y: 45 },
-  { id: 'd', label: 'ลึก', value: '2.00 m', x: 88, y: 78 },
+  { id: 'h', label: 'สูง', value: '1.80 m', x: 8, y: 45 },
+  { id: 'd', label: 'ลึก', value: '1.80 m', x: 88, y: 78 },
 ];
 
 // รายชื่อทีมและที่ปรึกษา (map กับตาราง `team_members`)
@@ -134,9 +134,9 @@ export const mockTeam = [
 
 // เมนูนำทางหลัก — ใช้ path สำหรับ React Router
 export const navLinks = [
-  { to: '/',          label: 'หน้าแรก' },
+  { to: '/',          label: 'Home Page' },
   { to: '/materials', label: 'Material Passport' },
-  { to: '/modules',   label: 'โมดูลโครงสร้าง' },
-  { to: '/sponsor',   label: 'ผู้สนับสนุนหลัก' },
-  { to: '/team',      label: 'ทีมงาน' },
+  { to: '/modules',   label: 'Structure Modules' },
+  { to: '/sponsor',   label: 'Main Sponsor' },
+  { to: '/team',      label: 'Team' },
 ];
