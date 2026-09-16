@@ -6,9 +6,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // ตั้ง Kanit เป็นฟอนต์หลักของทั้งระบบ (ใช้ class font-kanit หรือ font-sans)
-        kanit: ['Kanit', 'system-ui', 'sans-serif'],
-        sans: ['Kanit', 'system-ui', 'sans-serif'],
+        // Anakotmai เป็นฟอนต์หลักของทั้งระบบ (ใช้ class font-anakotmai หรือ font-sans)
+        anakotmai: ['Anakotmai', 'system-ui', 'sans-serif'],
+        sans: ['Anakotmai', 'system-ui', 'sans-serif'],
       },
       colors: {
         // พาเลตต์สีตามคอนเซ็ปต์ Bright Luxury & Futuristic Innovation

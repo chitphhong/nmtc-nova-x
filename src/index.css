@@ -1,4 +1,22 @@
 /* src/index.css */
+@font-face {
+  font-family: 'Anakotmai';
+  src: url('/fonts/anakotmai-light.woff2') format('woff2'),
+       url('/fonts/anakotmai-light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anakotmai';
+  src: url('/fonts/anakotmai-medium.woff2') format('woff2'),
+       url('/fonts/anakotmai-medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,8 +29,8 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    /* บังคับฟอนต์ Kanit + สีพื้น + สีตัวอักษรหลัก และกันเลื่อนแนวนอน */
-    @apply font-kanit bg-surface text-black antialiased overflow-x-hidden;
+    /* บังคับฟอนต์ Anakotmai + สีพื้น + สีตัวอักษรหลัก และกันเลื่อนแนวนอน */
+    @apply font-anakotmai bg-surface text-black antialiased overflow-x-hidden;
   }
   /* กำหนดระยะเผื่อหัวข้อไม่ให้ถูก Navbar บังตอน scroll ไป section */
   section[id] {
