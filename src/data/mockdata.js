@@ -111,8 +111,8 @@ export const mockModules = [
 
 // โหมดแสงสำหรับ Interactive Viewport ใน Hero
 export const lightingModes = [
-  { key: 'standby', label: 'Off', label_th: 'ปิด', brightness: 25, color: '#0284C7', desc: 'ไฟหรี่ประหยัดพลังงาน รอการตรวจจับ' },
-  { key: 'active', label: 'On', label_th: 'เปิด', brightness: 90, color: '#F59E0B', desc: 'ไฟเต็มระดับสำหรับนั่งพักและอ่านหนังสือ' },
+  { key: 'standby', label: 'Off', label_th: 'ปิด', brightness: 0, color: '#0284C7', desc: 'ปิดไฟ' },
+  { key: 'active', label: 'On', label_th: 'เปิด', brightness: 100, color: '#F59E0B', desc: 'เปิดไฟเต็มระดับ' },
 ];
 
 // จุด Hotspot บอกมิติของประติมากรรม (ตำแหน่งเป็น % ของ container)
@@ -134,9 +134,9 @@ export const mockTeam = [
 
 // เมนูนำทางหลัก — ใช้ path สำหรับ React Router
 export const navLinks = [
-  { to: '/',          label: 'Home Page' },
-  { to: '/materials', label: 'Material Passport' },
-  { to: '/modules',   label: 'Structure Modules' },
-  { to: '/sponsor',   label: 'Main Sponsor' },
+  { to: '/',          label: 'Home' },
+  { to: '/materials', label: 'Materials' },
+  { to: '/modules',   label: 'Modules' },
+  { to: '/sponsor',   label: 'Sponsor' },
   { to: '/team',      label: 'Team' },
 ];
