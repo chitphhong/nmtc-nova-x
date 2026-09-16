@@ -78,8 +78,10 @@ export default function HeroSection() {
           transition={{ duration: 0.7, delay: 0.32 }}
           className="mt-4 max-w-2xl text-sm sm:text-base font-light leading-relaxed text-white/75"
         >
-          ประติมากรรมที่ใช้งานได้จริง สร้างจากขยะพลาสติกภายในงานอีเวนต์
-          แปรรูปเป็นแผ่นเทอราซโซโมดูลาร์ พร้อมระบบไฟอัจฉริยะและพื้นที่สีเขียว
+          แนวคิด " IMPACT RE: BUILD
+          คือ แนวคิดการนำพลาสติกและวัสดุที่หมดหน้าที่จากงาน EVENT ของ IMPACT กลับเข้าสู่กระบวนการ RECYCLE และ UPCYCLE เพื่อสร้างเป็นประติมากรรมเชิงฟังก์ชันภายใต้ระบบ GEOMETRIC MODULAR DESIGN โดยใช้ TRIANGLE, HEXAGON และ CUBE เป็นหน่วยพื้นฐานที่สามารถถอด ประกอบ ปรับเปลี่ยนและนำกลับมาใช้ซ้ำได้ ผลงานผสานฟังก์ชันที่นั่ง กระทางต้นไม้ แสงสว่าง และ PHOTO SPOT เข้าด้วยกันพร้อมน้ำนวัตกรรม MATERIALS PASSPORTS มาเพิ่มประสบการณ์ให้ผู้ใช้งาน ทำให้ผลงานไม่ได้เป็นเพียง
+          ประติมากรรมตกแต่ง แต่เป็นพื้นที่ที่ผู้คนสามารถใช้ พักผ่อน เรียนรู้ และมีส่วนร่วมกับแนวคิด CIRCULAR ECONOMY ได้จริง ภายใต้แนวคิด
+          " หมดหน้าที่ ไม่ได้หมดคุณค่า "
         </motion.p>
 
         {/* ===== Interactive Viewport: Hotspot มิติ + โหมดแสง ===== */}
@@ -104,7 +106,7 @@ export default function HeroSection() {
             {/* ป้ายสรุปมิติรวมมุมล่างซ้าย */}
             <div className="absolute bottom-3 left-3 rounded-lg border border-white/20 bg-slateink/60 px-3 py-1.5 backdrop-blur">
               <span className="text-[11px] sm:text-xs font-light tracking-wider text-white/85">
-                3.00 m × 1.80 m × 2.00 m
+                3.00 m × 1.80 m × 1.80 m
               </span>
             </div>
           </div>
@@ -121,11 +123,10 @@ export default function HeroSection() {
                   <button
                     key={m.key}
                     onClick={() => setMode(m)}
-                    className={`min-h-[44px] rounded-xl border px-2 py-2 text-[11px] sm:text-xs font-medium transition-all duration-300 active:scale-95 ${
-                      active
+                    className={`min-h-[44px] rounded-xl border px-2 py-2 text-[11px] sm:text-xs font-medium transition-all duration-300 active:scale-95 ${active
                         ? 'border-champagne bg-champagne/15 text-champagne shadow-gold'
                         : 'border-white/20 bg-white/5 text-white/65 hover:border-cyanglow/50 hover:text-white'
-                    }`}
+                      }`}
                   >
                     <span className="block">{m.label}</span>
                     <span className="block text-[10px] font-light opacity-70">{m.label_th}</span>

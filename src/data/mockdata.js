@@ -111,8 +111,8 @@ export const mockModules = [
 
 // โหมดแสงสำหรับ Interactive Viewport ใน Hero
 export const lightingModes = [
-  { key: 'standby', label: 'Standby', label_th: 'พร้อมใช้งาน', brightness: 25, color: '#0284C7', desc: 'ไฟหรี่ประหยัดพลังงาน รอการตรวจจับ' },
-  { key: 'active', label: 'Active', label_th: 'ใช้งานจริง', brightness: 90, color: '#F59E0B', desc: 'ไฟเต็มระดับสำหรับนั่งพักและอ่านหนังสือ' },
+  { key: 'standby', label: 'Off', label_th: 'ปิด', brightness: 25, color: '#0284C7', desc: 'ไฟหรี่ประหยัดพลังงาน รอการตรวจจับ' },
+  { key: 'active', label: 'On', label_th: 'เปิด', brightness: 90, color: '#F59E0B', desc: 'ไฟเต็มระดับสำหรับนั่งพักและอ่านหนังสือ' },
 ];
 
 // จุด Hotspot บอกมิติของประติมากรรม (ตำแหน่งเป็น % ของ container)
