@@ -6,6 +6,7 @@ import { mockTeam, navLinks } from '../data/mockdata';
 
 export default function Footer() {
   const [teamMembers, setTeamMembers] = useState(mockTeam);
+  const [advisors, setAdvisors] = useState(mockTeam.filter((person) => person.type === 'advisor'));
 
   useEffect(() => {
     let alive = true;
@@ -13,8 +14,11 @@ export default function Footer() {
     (async () => {
       const res = await fetchWithFallback('team_members', mockTeam, { order: 'id' });
       if (!alive) return;
-      const members = Array.isArray(res.data) ? res.data.filter((person) => person.type === 'member') : [];
+      const allPeople = Array.isArray(res.data) ? res.data : mockTeam;
+      const members = allPeople.filter((person) => person.type === 'member');
+      const advisorList = allPeople.filter((person) => person.type === 'advisor');
       setTeamMembers(members.length ? members : mockTeam.filter((person) => person.type === 'member'));
+      setAdvisors(advisorList.length ? advisorList : mockTeam.filter((person) => person.type === 'advisor'));
     })();
 
     return () => {
@@ -66,9 +70,21 @@ export default function Footer() {
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-champagne">ผู้จัดทำ</p>
+              <p className="text-sm font-semibold text-champagne">ทีมผู้จัดทำ</p>
               <ul className="mt-3 space-y-2">
                 {teamMembers.map((person) => (
+                  <li key={person.id} className="text-xs text-white/60">
+                    <span className="font-medium text-white/80">{person.name}</span>
+                    <span className="mt-0.5 block text-[10px] text-cyanglow">{person.role}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold text-champagne">ครูที่ปรึกษาทีม</p>
+              <ul className="mt-3 space-y-2">
+                {advisors.map((person) => (
                   <li key={person.id} className="text-xs text-white/60">
                     <span className="font-medium text-white/80">{person.name}</span>
                     <span className="mt-0.5 block text-[10px] text-cyanglow">{person.role}</span>
