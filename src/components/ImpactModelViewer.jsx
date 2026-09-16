@@ -14,7 +14,7 @@ const VIEWER_SETTINGS = {
   // โมเดลใหม่จัดกึ่งกลาง Origin แล้ว ไม่ต้องชดเชย (0 = ตรงกลางพอดี)
   horizontalCenterCorrection: 0.0,
   verticalCenterCorrection: 0.0,
-  mobileCenterCorrection: { x: 0.42, y: -0.3 },
+  mobileCenterCorrection: { x: -0.2, y: -0.08 },
 };
 
 // ===== จุดปรับแต่งความสว่าง =====
@@ -168,7 +168,7 @@ export default function ImpactModelViewer({ mode, className = '' }) {
       if (!fittedCenter || !fittedSize) return null;
       const isMobile = window.matchMedia('(max-width: 639px)').matches;
       // มือถือ: ใช้ aspect 4:3 (แนวนอนในจอแคบ) เผื่อระยะรอบโมเดลพอประมาณ
-      const framingPadding = isMobile ? 2.2 : VIEWER_SETTINGS.framingPadding;
+      const framingPadding = isMobile ? 1.9 : VIEWER_SETTINGS.framingPadding;
       const verticalFov = THREE.MathUtils.degToRad(camera.fov);
       const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
 
