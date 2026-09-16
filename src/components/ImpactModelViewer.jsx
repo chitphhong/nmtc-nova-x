@@ -14,7 +14,7 @@ const VIEWER_SETTINGS = {
   // โมเดลใหม่จัดกึ่งกลาง Origin แล้ว ไม่ต้องชดเชย (0 = ตรงกลางพอดี)
   horizontalCenterCorrection: 0.0,
   verticalCenterCorrection: 0.0,
-  mobileCenterCorrection: { x: -0.12, y: -0.06 },
+  mobileCenterCorrection: { x: -0.80, y: -0.06 },
 };
 
 // ===== จุดปรับแต่งความสว่าง =====
