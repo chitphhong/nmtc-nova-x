@@ -30,7 +30,7 @@ export default function HeroSection() {
       </div>
 
       {/* ===== เนื้อหา Hero ===== */}
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-center px-4 sm:px-8 lg:px-16 pt-24 pb-16 sm:pt-28">
+      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-5xl flex-col justify-center px-4 sm:px-8 lg:px-16 pt-24 pb-16 sm:pt-28">
         <div className="mx-auto w-full max-w-5xl">
           {/* แบดจ์ชื่อการแข่งขัน */}
           <motion.div
