@@ -141,7 +141,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.32 }}
-            className="mt-4 max-w-full text-sm sm:text-base font-light leading-relaxed text-white/75"
+            className="mt-4 w-full max-w-5xl text-sm sm:text-base font-light leading-relaxed text-white/75"
           >
             แนวคิด " IMPACT RE: BUILD
             คือ แนวคิดการนำพลาสติกและวัสดุที่หมดหน้าที่จากงาน EVENT ของ IMPACT กลับเข้าสู่กระบวนการ RECYCLE และ UPCYCLE เพื่อสร้างเป็นประติมากรรมเชิงฟังก์ชันภายใต้ระบบ GEOMETRIC MODULAR DESIGN โดยใช้ TRIANGLE, HEXAGON และ CUBE เป็นหน่วยพื้นฐานที่สามารถถอด ประกอบ ปรับเปลี่ยนและนำกลับมาใช้ซ้ำได้ ผลงานผสานฟังก์ชันที่นั่ง กระทางต้นไม้ แสงสว่าง และ PHOTO SPOT เข้าด้วยกันพร้อมน้ำนวัตกรรม MATERIALS PASSPORTS มาเพิ่มประสบการณ์ให้ผู้ใช้งาน ทำให้ผลงานไม่ได้เป็นเพียง
