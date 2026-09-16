@@ -56,7 +56,7 @@ export default function HeroSection() {
           className="mt-5 sm:mt-6 max-w-4xl text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] tracking-tight text-white"
         >
           FROM WASTE{' '}
-          {/* ไล่เฉดทอง→ไซแอนบนคำสำคัญ */}
+          {/* ไล่เฉดทอง→ไซแอนบนคำสำคัญ */} <br />
           <span className="bg-gradient-to-r from-champagne via-champagne to-cyanglow bg-clip-text text-transparent">
             TO WONDER
           </span>
