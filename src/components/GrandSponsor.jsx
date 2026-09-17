@@ -48,25 +48,30 @@ export default function GrandSponsor() {
           </motion.span>
 
           {/* ชื่อผู้สนับสนุนหลัก */}
-          <motion.h2
+          <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.25, duration: 0.6 }}
-            className="mt-5 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white"
+            className="mt-6"
           >
-            <img 
-              src="/Impact_Muang_Thong_Thani_Logo.png" 
-              alt="IMPACT Muang Thong Thani" 
-              className="flex-shrink-0 h-32 sm:h-40 md:h-48 lg:h-56 w-auto mb-4"
-            />
+            {/* กล่องโลโก้สีขาว ลดขนาด 50% ชิดซ้าย */}
+            <div className="inline-flex items-center justify-start rounded-2xl bg-white/95 p-3.5 sm:p-4 shadow-md backdrop-blur-md mb-4 border border-white/50">
+              <img 
+                src="/Impact_Muang_Thong_Thani_Logo.png" 
+                alt="IMPACT Muang Thong Thani" 
+                className="h-14 sm:h-16 md:h-20 lg:h-24 w-auto object-contain"
+              />
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white">
             <span className="block mt-1 bg-gradient-to-r from-champagne to-amber-200 bg-clip-text text-transparent">
               Exhibition and Convention Center
             </span>
             <span className="mt-2 block text-base sm:text-xl md:text-2xl font-light text-white/80">
               เมืองทองธานี · Muang Thong Thani
             </span>
-          </motion.h2>
+            </h2>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
