@@ -40,17 +40,7 @@ export default function ModulesPage() {
             transition={{ duration: 0.55, delay: 0.08 }}
             className="mt-4 max-w-3xl"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-cyanglow/35 bg-cyanglow/8 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-wider text-cyanglow">
-              MODULAR SYSTEM
-            </span>
-            <h1 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-slateink">
-              ระบบโมดูล{' '}
-              <span className="text-azure">โครงสร้าง</span>
-            </h1>
-            <p className="mt-4 max-w-2xl text-sm sm:text-base font-light leading-relaxed text-slateink/65">
-              ประติมากรรมประกอบจาก 4 โมดูลหลัก ที่ออกแบบให้ถอดประกอบซ้ำได้
-              ปรับผังตามพื้นที่จัดงาน และซ่อมบำรุงเฉพาะชิ้นได้โดยไม่ต้องรื้อทั้งโครงสร้าง
-            </p>
+            
           </motion.div>
         </div>
       </section>
