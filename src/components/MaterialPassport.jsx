@@ -15,6 +15,45 @@ function Counter({ value, suffix = '', decimals = 0 }) {
   return <span>{display}{suffix}</span>;
 }
 
+/* คอมโพเนนต์แสดงรูปภาพวัสดุ พร้อมรองรับ Fallback/Placeholder */
+function MaterialImage({ src, alt, index }) {
+  const [hasError, setHasError] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  if (!src || hasError) {
+    return (
+      <div className="flex flex-col items-center justify-center p-2 text-center h-full w-full">
+        <svg className="h-5 w-5 text-slateink/30 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <polyline points="21 15 16 10 5 21" />
+        </svg>
+        <span className="text-[10px] text-slateink/40">รูปที่ {index + 1}</span>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        onLoad={() => setIsLoaded(true)}
+        onError={() => setHasError(true)}
+        className={`h-full w-full object-cover transition-all duration-300 group-hover/img:scale-110 ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slateink/5 animate-pulse">
+          <span className="text-[10px] text-slateink/30">กำลังโหลด...</span>
+        </div>
+      )}
+    </>
+  );
+}
+
 function normalizeMaterials(rows = []) {
   if (!Array.isArray(rows)) return [];
 
@@ -267,30 +306,11 @@ export default function MaterialPassport() {
                           key={imgIdx}
                           className="relative aspect-square overflow-hidden rounded-lg bg-slateink/5 border border-slateink/10 flex items-center justify-center group/img"
                         >
-                          {imgUrl ? (
-                            <img
-                              src={imgUrl}
-                              alt={`${mat.name} ${imgIdx + 1}`}
-                              className="h-full w-full object-cover transition-transform duration-300 group-hover/img:scale-110"
-                              onError={(e) => {
-                                // ถ้ายังไม่มีรูปจริง ให้แสดง placeholder สวยๆ
-                                e.target.style.display = 'none';
-                                e.target.nextSibling.style.display = 'flex';
-                              }}
-                            />
-                          ) : null}
-                          <div
-                            className={`flex flex-col items-center justify-center p-2 text-center ${
-                              imgUrl ? 'hidden' : 'flex'
-                            }`}
-                          >
-                            <svg className="h-5 w-5 text-slateink/30 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                              <circle cx="8.5" cy="8.5" r="1.5" />
-                              <polyline points="21 15 16 10 5 21" />
-                            </svg>
-                            <span className="text-[10px] text-slateink/40">รูปที่ {imgIdx + 1}</span>
-                          </div>
+                          <MaterialImage
+                            src={imgUrl}
+                            alt={`${mat.name} ${imgIdx + 1}`}
+                            index={imgIdx}
+                          />
                         </div>
                       ))}
                     </div>
