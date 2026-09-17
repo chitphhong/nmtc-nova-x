@@ -41,7 +41,7 @@ export default function GrandSponsor() {
             transition={{ delay: 0.15 }}
             className="inline-flex items-center gap-2 rounded-full border border-champagne bg-champagne/15 px-4 py-2 text-sm sm:text-base font-semibold tracking-[0.18em] text-white"
           >
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="h-4 w-4" viewBox="0 0 24 24">
               <path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2z" />
             </svg>
             ผู้สนับสนุนหลักของเรา
