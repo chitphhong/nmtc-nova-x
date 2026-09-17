@@ -23,13 +23,7 @@ export default function SponsorPage() {
         </motion.div>
       </div> */}
 
-      {/* ===== GrandSponsor เต็มหน้า (มี bg ของตัวเอง) ===== */}
-      <GrandSponsor />
-
-      {/* ===== ปุ่มกลับ + Footer ===== */}
-      <div className="bg-slateink px-4 sm:px-8 lg:px-16 py-8">
-        <div className="mx-auto max-w-7xl">
-          <Link
+      {/* ===== GrandSponsor เต็มหน้า (มี bg ของตัวเอง) ===== */}<Link
             to="/"
             className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-champagne transition-colors"
           >
@@ -38,6 +32,12 @@ export default function SponsorPage() {
             </svg>
             กลับหน้าหลัก
           </Link>
+      <GrandSponsor />
+
+      {/* ===== ปุ่มกลับ + Footer ===== */}
+      <div className="bg-slateink px-4 sm:px-8 lg:px-16 py-8">
+        <div className="mx-auto max-w-7xl">
+          
         </div>
       </div>
       <Footer />
