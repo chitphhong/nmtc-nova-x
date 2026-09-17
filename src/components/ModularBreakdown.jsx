@@ -26,7 +26,7 @@ const icons = {
   ),
 };
 
-export default function ModularBreakdown() {
+export default function ModularBreakdown({ hideHeader = false }) {
   // state: รายการโมดูล (เริ่มด้วย mock แล้วค่อยแทนที่ด้วยข้อมูลจาก Supabase)
   const [modules, setModules] = useState(mockModules);
   // state: โมดูลที่ถูกเลือกเพื่อดูรายละเอียดเต็ม
@@ -50,27 +50,29 @@ export default function ModularBreakdown() {
   };
 
   return (
-    <section id="modules" className="relative py-16 sm:py-20 lg:py-28 bg-gradient-to-b from-surface to-white">
+    <section id="modules" className={`relative ${hideHeader ? 'pt-4 pb-16 sm:pt-6 sm:pb-20' : 'py-16 sm:py-20 lg:py-28'} bg-gradient-to-b from-surface to-white`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-16">
-        {/* หัวข้อ Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.36 }}
-          className="max-w-3xl"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border border-cyanglow/35 bg-cyanglow/8 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-wider text-cyanglow">
-            MODULAR SYSTEM
-          </span>
-          <h2 className="h-fluid mt-4 text-slateink">
-            ระบบโมดูล <span className="text-azure">ประกอบ · ถอด · ย้ายได้</span>
-          </h2>
-          <p className="mt-4 text-sm sm:text-base font-light leading-relaxed text-slateink">
-            ประติมากรรมประกอบจาก 3 โมดูลหลัก ที่ออกแบบให้ถอดประกอบซ้ำได้
-            ปรับผังตามพื้นที่จัดงาน และซ่อมบำรุงเฉพาะชิ้นได้โดยไม่ต้องรื้อทั้งโครงสร้าง
-          </p>
-        </motion.div>
+        {/* หัวข้อ Section (ซ่อนเมื่อเปิดจากหน้า ModulesPage) */}
+        {!hideHeader && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.36 }}
+            className="max-w-3xl"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full border border-cyanglow/35 bg-cyanglow/8 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-wider text-cyanglow">
+              MODULAR SYSTEM
+            </span>
+            <h2 className="h-fluid mt-4 text-slateink">
+              ระบบโมดูล <span className="text-azure">ประกอบ · ถอด · ย้ายได้</span>
+            </h2>
+            <p className="mt-4 text-sm sm:text-base font-light leading-relaxed text-slateink">
+              ประติมากรรมประกอบจาก 3 โมดูลหลัก ที่ออกแบบให้ถอดประกอบซ้ำได้
+              ปรับผังตามพื้นที่จัดงาน และซ่อมบำรุงเฉพาะชิ้นได้โดยไม่ต้องรื้อทั้งโครงสร้าง
+            </p>
+          </motion.div>
+        )}
 
         {/* กริดการ์ดโมดูล: 1 คอลัมน์มือถือ → 2 คอลัมน์แท็บเล็ต → 3 คอลัมน์เดสก์ท็อป */}
         <div className="mt-10 sm:mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6">
