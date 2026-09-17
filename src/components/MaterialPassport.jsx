@@ -255,7 +255,7 @@ export default function MaterialPassport() {
             เส้นทางการแปรรูป <span className="text-azure">Waste → Transformation</span>
           </h3>
 
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
             {materials.map((mat, i) => (
               <motion.article
                 key={mat.id || i}

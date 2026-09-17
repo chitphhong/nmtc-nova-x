@@ -73,7 +73,7 @@ export default function ModularBreakdown() {
         </motion.div>
 
         {/* กริดการ์ดโมดูล: 1 คอลัมน์มือถือ → 2 คอลัมน์แท็บเล็ต → 3 คอลัมน์เดสก์ท็อป */}
-        <div className="mt-10 sm:mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="mt-10 sm:mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6">
           {modules.map((mod, i) => {
             const tone = toneStyles[mod.tone] || toneStyles.azure;
             return (
