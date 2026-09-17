@@ -265,40 +265,42 @@ export default function MaterialPassport() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="glass-card group relative flex flex-col justify-between overflow-hidden p-6 transition-all duration-300 hover:shadow-xl"
               >
-                <div>
-                  {/* แถบสีบนหัวการ์ดตามสีประจำวัสดุ */}
-                  <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: mat.color }} />
+                <div className="flex flex-1 flex-col justify-between">
+                  <div>
+                    {/* แถบสีบนหัวการ์ดตามสีประจำวัสดุ */}
+                    <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: mat.color }} />
 
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <span className="text-4xl sm:text-5xl font-extrabold text-slateink/15 leading-none">
-                        0{i + 1}
-                      </span>
-                      <h4 className="mt-2 text-lg sm:text-xl font-bold text-slateink">{mat.name}</h4>
-                      <p className="text-xs font-light text-slateink/60">แหล่งที่มา: {mat.source}</p>
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <span className="text-4xl sm:text-5xl font-extrabold text-slateink/15 leading-none">
+                          0{i + 1}
+                        </span>
+                        <h4 className="mt-2 text-lg sm:text-xl font-bold text-slateink">{mat.name}</h4>
+                        <p className="text-xs font-light text-slateink/60">แหล่งที่มา: {mat.source}</p>
+                      </div>
+
+                      {/* สัดส่วนวัสดุ */}
+                      {mat.ratio && (
+                        <span
+                          className="rounded-full px-3 py-1 text-xs font-semibold tracking-wider"
+                          style={{ backgroundColor: `${mat.color}18`, color: mat.color }}
+                        >
+                          {mat.ratio}%
+                        </span>
+                      )}
                     </div>
 
-                    {/* สัดส่วนวัสดุ */}
-                    {mat.ratio && (
-                      <span
-                        className="rounded-full px-3 py-1 text-xs font-semibold tracking-wider"
-                        style={{ backgroundColor: `${mat.color}18`, color: mat.color }}
-                      >
-                        {mat.ratio}%
-                      </span>
-                    )}
+                    {/* คำอธิบายกระบวนการแปรรูป */}
+                    <div className="mt-4 flex items-start gap-2.5 rounded-xl bg-slateink/[0.03] p-3 border border-slateink/5 min-h-[105px]">
+                      <svg className="mt-0.5 h-4 w-4 shrink-0" style={{ color: mat.color }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                      <p className="text-xs sm:text-sm font-medium leading-relaxed text-slateink/80">{mat.output}</p>
+                    </div>
                   </div>
 
-                  {/* คำอธิบายกระบวนการแปรรูป */}
-                  <div className="mt-4 flex items-start gap-2.5 rounded-xl bg-slateink/[0.03] p-3 border border-slateink/5">
-                    <svg className="mt-0.5 h-4 w-4 shrink-0" style={{ color: mat.color }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                      <path d="M5 12h14M13 6l6 6-6 6" />
-                    </svg>
-                    <p className="text-xs sm:text-sm font-medium leading-relaxed text-slateink/80">{mat.output}</p>
-                  </div>
-
-                  {/* แกลเลอรีรูปภาพตัวอย่างวัสดุ (อย่างน้อย 3 รูป) */}
-                  <div className="mt-4">
+                  {/* แกลเลอรีรูปภาพตัวอย่างวัสดุ (ดันลงมาชิดล่างให้ตรงแนวกันทุกการ์ด) */}
+                  <div className="mt-5">
                     <p className="text-[11px] font-medium text-slateink/50 mb-2">ภาพตัวอย่างวัสดุ &amp; ขั้นตอน:</p>
                     <div className="grid grid-cols-3 gap-2">
                       {(mat.images && mat.images.length > 0
