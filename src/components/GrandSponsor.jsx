@@ -58,7 +58,7 @@ export default function GrandSponsor() {
             <img 
               src="/Impact_Muang_Thong_Thani_Logo.png" 
               alt="IMPACT Muang Thong Thani" 
-              className="flex-center h-32 sm:h-40 md:h-48 lg:h-56 w-auto mb-4"
+              className="flex-shrink-0 h-32 sm:h-40 md:h-48 lg:h-56 w-auto mb-4"
             />
             <span className="block mt-1 bg-gradient-to-r from-champagne to-amber-200 bg-clip-text text-transparent">
               Exhibition and Convention Center
