@@ -19,17 +19,24 @@ function normalizeMaterials(rows = []) {
   if (!Array.isArray(rows)) return [];
 
   return rows.map((mat) => {
-    const images = Array.isArray(mat?.images)
+    const rawImages = Array.isArray(mat?.images)
       ? mat.images
       : Array.isArray(mat?.image_url)
         ? mat.image_url
-        : mat?.image_url || mat?.image || [];
+        : Array.isArray(mat?.image)
+          ? mat.image
+          : mat?.image_url || mat?.image || [];
 
-    const safeImages = Array.isArray(images)
-      ? images.filter((url) => typeof url === 'string' && url.trim())
-      : typeof images === 'string' && images.trim()
-        ? [images.trim()]
-        : [];
+    const safeImages = (Array.isArray(rawImages) ? rawImages : [rawImages])
+      .flatMap((entry) => {
+        if (typeof entry === 'string' && entry.trim()) return [entry.trim()];
+        if (entry && typeof entry === 'object') {
+          const url = entry.url || entry.src || entry.path || entry.image_url || entry.link;
+          if (typeof url === 'string' && url.trim()) return [url.trim()];
+        }
+        return [];
+      })
+      .filter(Boolean);
 
     return {
       ...mat,
