@@ -33,15 +33,7 @@ export default function ModulesPage() {
             <span className="text-cyanglow font-medium">โมดูลโครงสร้าง</span>
           </motion.div>
 
-          {/* Page title */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.08 }}
-            className="mt-4 max-w-3xl"
-          >
-            
-          </motion.div>
+          
         </div>
       </section>
 
