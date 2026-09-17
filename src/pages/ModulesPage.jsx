@@ -9,7 +9,7 @@ export default function ModulesPage() {
   return (
     <>
       {/* ===== Page Hero Banner ===== */}
-      <section className="relative pt-32 pb-12 sm:pt-36 sm:pb-16 overflow-hidden bg-gradient-to-b from-cyanglow/8 to-surface">
+      <section className="relative pt-32 pb-6 sm:pt-36 sm:pb-8 overflow-hidden bg-gradient-to-b from-cyanglow/8 to-surface">
         {/* ลายกริดพื้นหลัง */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.06]"
@@ -33,12 +33,29 @@ export default function ModulesPage() {
             <span className="text-cyanglow font-medium">โมดูลโครงสร้าง</span>
           </motion.div>
 
-          
+          {/* Page title */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="mt-4 max-w-3xl"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full border border-cyanglow/35 bg-cyanglow/8 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-wider text-cyanglow">
+              MODULAR SYSTEM
+            </span>
+            <h1 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-slateink">
+              ระบบโมดูล <br />
+              <span className="text-azure">ประกอบ · ถอด · ย้ายได้</span>
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm sm:text-base font-light leading-relaxed text-slateink/65">
+              ประติมากรรมประกอบจาก 4 โมดูลหลัก ที่ออกแบบให้ถอดประกอบซ้ำได้ ปรับผังตามพื้นที่จัดงาน และซ่อมบำรุงเฉพาะชิ้นได้โดยไม่ต้องรื้อทั้งโครงสร้าง
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* ===== เนื้อหาหลัก ===== */}
-      <ModularBreakdown />
+      {/* ===== เนื้อหาหลัก: ซ่อนหัวข้อเพื่อไม่ให้ซ้ำ ===== */}
+      <ModularBreakdown hideHeader={true} />
 
       {/* ===== ปุ่มกลับ ===== */}
       <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-16 pb-16 sm:pb-20">

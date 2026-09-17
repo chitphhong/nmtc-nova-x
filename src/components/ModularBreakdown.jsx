@@ -75,7 +75,7 @@ export default function ModularBreakdown({ hideHeader = false }) {
         )}
 
         {/* กริดการ์ดโมดูล: 1 คอลัมน์มือถือ → 2 คอลัมน์แท็บเล็ต → 3 คอลัมน์เดสก์ท็อป */}
-        <div className="mt-2 sm:mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6">
+        <div className={`${hideHeader ? 'mt-2 sm:mt-4' : 'mt-10 sm:mt-14'} grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6`}>
           {modules.map((mod, i) => {
             const tone = toneStyles[mod.tone] || toneStyles.azure;
             return (
