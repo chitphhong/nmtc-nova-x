@@ -45,18 +45,18 @@ export default function ModulesPage() {
             </span>
             <h1 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-slateink">
               ระบบโมดูล{' '}
-              <span className="text-azure">ประกอบ · ถอด · ย้ายได้</span>
+              <span className="text-azure">โครงสร้าง</span>
             </h1>
             <p className="mt-4 max-w-2xl text-sm sm:text-base font-light leading-relaxed text-slateink/65">
-              ประติมากรรมประกอบจาก 3 โมดูลหลัก ที่ออกแบบให้ถอดประกอบซ้ำได้
+              ประติมากรรมประกอบจาก 4 โมดูลหลัก ที่ออกแบบให้ถอดประกอบซ้ำได้
               ปรับผังตามพื้นที่จัดงาน และซ่อมบำรุงเฉพาะชิ้นได้โดยไม่ต้องรื้อทั้งโครงสร้าง
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* ===== เนื้อหาหลัก: ซ่อนหัวข้อซ้ำด้วย hideHeader ===== */}
-      <ModularBreakdown hideHeader={true} />
+      {/* ===== เนื้อหาหลัก ===== */}
+      <ModularBreakdown />
 
       {/* ===== ปุ่มกลับ ===== */}
       <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-16 pb-16 sm:pb-20">

@@ -65,17 +65,17 @@ export default function ModularBreakdown({ hideHeader = false }) {
               MODULAR SYSTEM
             </span>
             <h2 className="h-fluid mt-4 text-slateink">
-              ระบบโมดูล <span className="text-azure">ประกอบ · ถอด · ย้ายได้</span>
+              ระบบโมดูล <br /><span className="text-azure">ประกอบ · ถอด · ย้ายได้</span>
             </h2>
             <p className="mt-4 text-sm sm:text-base font-light leading-relaxed text-slateink">
-              ประติมากรรมประกอบจาก 3 โมดูลหลัก ที่ออกแบบให้ถอดประกอบซ้ำได้
+              ประติมากรรมประกอบจาก 4 โมดูลหลัก ที่ออกแบบให้ถอดประกอบซ้ำได้
               ปรับผังตามพื้นที่จัดงาน และซ่อมบำรุงเฉพาะชิ้นได้โดยไม่ต้องรื้อทั้งโครงสร้าง
             </p>
           </motion.div>
         )}
 
         {/* กริดการ์ดโมดูล: 1 คอลัมน์มือถือ → 2 คอลัมน์แท็บเล็ต → 3 คอลัมน์เดสก์ท็อป */}
-        <div className="mt-10 sm:mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6">
+        <div className="mt-2 sm:mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6">
           {modules.map((mod, i) => {
             const tone = toneStyles[mod.tone] || toneStyles.azure;
             return (
