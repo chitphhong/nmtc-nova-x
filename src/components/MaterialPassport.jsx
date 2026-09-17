@@ -15,6 +15,29 @@ function Counter({ value, suffix = '', decimals = 0 }) {
   return <span>{display}{suffix}</span>;
 }
 
+function normalizeMaterials(rows = []) {
+  if (!Array.isArray(rows)) return [];
+
+  return rows.map((mat) => {
+    const images = Array.isArray(mat?.images)
+      ? mat.images
+      : Array.isArray(mat?.image_url)
+        ? mat.image_url
+        : mat?.image_url || mat?.image || [];
+
+    const safeImages = Array.isArray(images)
+      ? images.filter((url) => typeof url === 'string' && url.trim())
+      : typeof images === 'string' && images.trim()
+        ? [images.trim()]
+        : [];
+
+    return {
+      ...mat,
+      images: safeImages,
+    };
+  });
+}
+
 export default function MaterialPassport() {
   // state: เก็บสถิติจริงจากตาราง project_stats
   const [stats, setStats] = useState(null);
@@ -43,9 +66,11 @@ export default function MaterialPassport() {
       // ดึงรายการวัสดุ เรียงตาม id
       const m = await fetchWithFallback('materials', mockMaterials, { order: 'id' });
       if (!alive) return;
+
+      const normalizedMaterials = normalizeMaterials(m.data);
       setStats(projectStats);
-      setMaterials(m.data);
-      setIsMaterialsMock(m.isMock);
+      setMaterials(normalizedMaterials.length ? normalizedMaterials : mockMaterials);
+      setIsMaterialsMock(m.isMock && normalizedMaterials.length === 0);
       setLoading(false);
     })();
     return () => { alive = false; };
