@@ -1,6 +1,6 @@
 // src/components/MaterialPassport.jsx
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { fetchWithFallback, supabase } from '../lib/supabaseClient';
 import { mockMaterials } from '../data/mockdata';
 
@@ -93,6 +93,8 @@ export default function MaterialPassport() {
   const [isMaterialsMock, setIsMaterialsMock] = useState(true);
   // state: สถานะกำลังโหลด
   const [loading, setLoading] = useState(true);
+  // state: รูปที่เลือกเพื่อเปิด modal เต็มจอ
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // ดึงข้อมูลจาก Supabase ครั้งเดียวตอน mount
   useEffect(() => {
@@ -302,16 +304,20 @@ export default function MaterialPassport() {
                         ? mat.images
                         : [null, null, null]
                       ).slice(0, 3).map((imgUrl, imgIdx) => (
-                        <div
+                        <button
                           key={imgIdx}
-                          className="relative aspect-square overflow-hidden rounded-lg bg-slateink/5 border border-slateink/10 flex items-center justify-center group/img"
+                          type="button"
+                          onClick={() => imgUrl && setSelectedImage({ src: imgUrl, label: `${mat.name} ${imgIdx + 1}` })}
+                          disabled={!imgUrl}
+                          className="relative aspect-square overflow-hidden rounded-lg bg-slateink/5 border border-slateink/10 flex items-center justify-center group/img transition-transform duration-200 hover:scale-[1.01] disabled:cursor-default disabled:hover:scale-100"
+                          aria-label={imgUrl ? `เปิดภาพ ${mat.name} ${imgIdx + 1}` : undefined}
                         >
                           <MaterialImage
                             src={imgUrl}
                             alt={`${mat.name} ${imgIdx + 1}`}
                             index={imgIdx}
                           />
-                        </div>
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -341,6 +347,48 @@ export default function MaterialPassport() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slateink/80 p-4 backdrop-blur-sm"
+            onClick={() => setSelectedImage(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.96, opacity: 0, y: 10 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-slate-950 shadow-2xl"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setSelectedImage(null)}
+                className="absolute right-3 top-3 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-slateink/60 text-xl text-white transition hover:bg-slateink/80"
+                aria-label="ปิดภาพ"
+              >
+                ×
+              </button>
+
+              <div className="relative max-h-[85vh] overflow-hidden">
+                <img
+                  src={selectedImage.src}
+                  alt={selectedImage.label}
+                  className="max-h-[85vh] w-full object-contain"
+                />
+              </div>
+
+              <div className="border-t border-white/10 bg-slate-900/90 px-4 py-3 text-sm text-slate-200">
+                {selectedImage.label}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
