@@ -221,7 +221,7 @@ export default function MaterialPassport() {
         </div>
 
         {/* ===== ตัวเลขย่อยของแหล่งวัสดุ: 1 คอลัมน์มือถือ → 3 คอลัมน์เดสก์ท็อป ===== */}
-        <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {[
             { label: 'ฝาขวดพลาสติก', value: stats?.pet_bottles ?? 0, unit: 'ขวด', color: 'text-azure' },
             { label: 'ฟิวเจอร์บอร์ด', value: stats?.furniture_boards ?? 0, unit: 'แผ่น', color: 'text-azure' },
