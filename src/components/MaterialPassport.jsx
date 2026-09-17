@@ -227,8 +227,7 @@ export default function MaterialPassport() {
             { label: 'ฟิวเจอร์บอร์ด', value: stats?.furniture_boards ?? 0, unit: 'แผ่น', color: 'text-azure' },
             { label: 'ถาดพลาสติก', value: stats?.plastic_trays ?? 0, unit: 'ถาด', color: 'text-azure' },
             { label: 'จานพลาสติก', value: stats?.plastic_plates ?? 0, unit: 'จาน', color: 'text-azure' },
-            { label: 'ผ้าปูโต๊ะ', value: stats?.tablecloths ?? 0, unit: 'ชุด', color: 'text-azure' },
-
+            { label: 'ผ้าปูโต๊ะ', value: stats?.tablecloths ?? 0, unit: 'ผืน', color: 'text-azure' },
             
           ].map((item, i) => (
             <motion.div

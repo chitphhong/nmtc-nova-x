@@ -10,7 +10,7 @@ export default function SponsorPage() {
   return (
     <>
       {/* ===== Breadcrumb (ลอยอยู่บน full-bleed hero ของ GrandSponsor) ===== */}
-      <div className="relative z-20 mx-auto max-w-7xl px-4 sm:px-8 lg:px-16 pt-28 sm:pt-32">
+      {/* <div className="relative z-20 mx-auto max-w-7xl px-4 sm:px-8 lg:px-16 pt-28 sm:pt-32">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -21,7 +21,7 @@ export default function SponsorPage() {
           <span>/</span>
           <span className="text-champagne font-medium">ผู้สนับสนุน</span>
         </motion.div>
-      </div>
+      </div> */}
 
       {/* ===== GrandSponsor เต็มหน้า (มี bg ของตัวเอง) ===== */}
       <GrandSponsor />
