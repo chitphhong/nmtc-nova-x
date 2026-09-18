@@ -5,6 +5,7 @@ import HeroSection from '../components/HeroSection';
 import MaterialPassport from '../components/MaterialPassport';
 import ModularBreakdown from '../components/ModularBreakdown';
 import GrandSponsor from '../components/GrandSponsor';
+import WisahakijPartner from '../components/WisahakijPartner';
 import TeamShowcase from '../components/TeamShowcase';
 
 export default function HomePage() {
@@ -14,6 +15,7 @@ export default function HomePage() {
       <MaterialPassport />
       <ModularBreakdown />
       <GrandSponsor />
+      <WisahakijPartner />
       <TeamShowcase />
     </>
   );
