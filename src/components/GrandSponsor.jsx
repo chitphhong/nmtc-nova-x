@@ -55,12 +55,12 @@ export default function GrandSponsor() {
             transition={{ delay: 0.25, duration: 0.6 }}
             className="mt-6"
           >
-            {/* กล่องโลโก้สีขาว ลดขนาด 50% ชิดซ้าย */}
-            <div className="inline-flex items-center justify-start rounded-2xl bg-white/95 p-3.5 sm:p-4 shadow-md backdrop-blur-md mb-4 border border-white/50">
+            {/* โลโก้ผู้สนับสนุนหลัก โดยไม่ใช้พื้นหลังสีขาว */}
+            <div className="mb-4 inline-flex items-center justify-start">
               <img 
                 src="/Impact_Muang_Thong_Thani_Logo.png" 
                 alt="IMPACT Muang Thong Thani" 
-                className="h-14 sm:h-16 md:h-20 lg:h-24 w-auto object-contain"
+                className="h-14 w-auto object-contain sm:h-16 md:h-20 lg:h-24"
               />
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white">

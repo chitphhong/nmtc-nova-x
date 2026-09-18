@@ -32,9 +32,11 @@ export default function Footer() {
         {/* จัดวาง 1 คอลัมน์บนมือถือ → 3 คอลัมน์ตั้งแต่ md */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <p className="text-xl font-bold">
-              IMPACT <span className="text-champagne">NMTC NOVA</span>
-            </p>
+            <img
+              src="/NMTC_NOVA_logo.png"
+              alt="IMPACT NMTC NOVA"
+              className="h-12 w-auto object-contain sm:h-14"
+            />
             <p className="mt-2 text-xs font-light tracking-[0.2em] text-cyanglow">
               FROM WASTE TO WONDER
             </p>
