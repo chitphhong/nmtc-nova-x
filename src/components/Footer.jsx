@@ -34,14 +34,14 @@ export default function Footer() {
           <div>
             <img
               src="/NMTC_NOVA_logo.png"
-              alt="IMPACT NMTC NOVA"
+              alt="IMPACT NMTC NOVA"  
               className="h-12 w-auto object-contain sm:h-14"
             />
             <p className="mt-2 text-xs font-light tracking-[0.2em] text-cyanglow">
               FROM WASTE TO WONDER
             </p>
             <p className="mt-3 max-w-sm text-xs font-light leading-relaxed text-white/55">
-              ประติมากรรมใช้งานได้จริงจากขยะพลาสติกในงานอีเวนต์ ขนาด 3.00 × 1.80 × 2.00 เมตร
+              ประติมากรรมเชิงฟังก์ชันภายใต้ระบบ GEOMETRIC MODULAR DESIGN โดยใช้ TRIANGLE, HEXAGON และ CUBE ภายใต้แนวคิด " หมดหน้าที่ ไม่ได้หมดคุณค่า "
             </p>
           </div>
 
