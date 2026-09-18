@@ -78,13 +78,16 @@ export default function GrandSponsor() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.35, duration: 0.6 }}
-            className="mt-6 max-w-3xl text-sm sm:text-base font-light leading-relaxed text-white/80"
+            className="mt-6 max-w-4xl text-sm sm:text-base font-light leading-relaxed text-white/80"
           >
-            ขอขอบคุณ <strong className="font-medium text-champagne">อิมแพ็ค เมืองทองธานี</strong>{' '}
-            ในฐานะผู้สนับสนุนหลักและเจ้าภาพจัดการแข่งขัน{' '}
+            ขอขอบพระคุณ <strong className="font-medium text-champagne">บริษัท อิมแพ็ค เอ็กซิบิชั่น แมเนจเม้นท์ จำกัด (อิมแพ็ค เมืองทองธานี)</strong>{' '}
+            ในฐานะผู้สนับสนุนหลักและเจ้าภาพการแข่งขัน{' '}
             <strong className="font-medium text-white">IMPACT Rise Up Competition</strong>{' '}
-            ที่เปิดพื้นที่ให้คนรุ่นใหม่ได้เปลี่ยนขยะจากงานอีเวนต์ให้กลายเป็นงานออกแบบที่ใช้ได้จริง
-            ภายใต้นโยบาย Green Meetings และการจัดงานอย่างยั่งยืน
+            ที่เปิดโอกาสและมอบพื้นที่สร้างสรรค์ให้แก่พวกเรา{' '}
+            <strong className="font-medium text-white">ทีม NMTC NOVA (วิทยาลัยเทคนิคนวมินทราชินีมุกดาหาร)</strong>{' '}
+            ในการต่อยอดนวัตกรรม{' '}
+            <strong className="font-medium text-champagne">IMPACT RE:BUILD</strong>{' '}
+            เพื่อเปลี่ยนขยะจากงานอีเวนต์ให้กลายเป็นงานประติมากรรมอัจฉริยะที่ใช้งานได้จริง พร้อมร่วมขับเคลื่อนนโยบาย Green Meetings, มาตรฐาน ISO 20121 และการยกระดับเศรษฐกิจหมุนเวียน (Circular Economy) ร่วมกับชุมชนอย่างยั่งยืน
           </motion.p>
 
           {/* จุดเด่นด้านความยั่งยืน: 1 คอลัมน์มือถือ → 3 คอลัมน์ตั้งแต่ md */}
