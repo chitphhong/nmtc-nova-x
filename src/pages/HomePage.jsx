@@ -13,10 +13,10 @@ export default function HomePage() {
     <>
       <HeroSection />
       <MaterialPassport />
-      <ModularBreakdown />
+      {/* <ModularBreakdown /> */}
       <GrandSponsor />
       <WisahakijPartner />
-      <TeamShowcase />
+      {/* <TeamShowcase /> */}
     </>
   );
 }
