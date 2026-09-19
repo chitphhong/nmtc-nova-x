@@ -106,14 +106,14 @@ export default function ModularBreakdown({ hideHeader = false }) {
             ))}
           </div>
 
-          {/* ปุ่มพิมพ์แผ่น QR Code ทั้งหมด */}
+          {/* ปุ่มบันทึกรูปและพิมพ์แผ่น QR Code */}
           <button
             type="button"
             onClick={() => setIsPrintModalOpen(true)}
             className="inline-flex items-center gap-2 rounded-full border border-azure/30 bg-azure/10 px-4 py-2 text-xs sm:text-sm font-semibold text-azure hover:bg-azure hover:text-white transition-all shadow-sm shrink-0 self-start sm:self-auto"
           >
-            <span>🖨️</span>
-            <span>พิมพ์แผ่น QR Code ({modules.length} ชิ้น)</span>
+            <span>🏷️</span>
+            <span>บันทึกรูป & พิมพ์ QR Code ({modules.length} ชิ้น)</span>
           </button>
         </div>
 
