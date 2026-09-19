@@ -45,7 +45,9 @@ export default function ModulesPage() {
             </span>
             <h1 className="mt-4 text-4xl sm:text-5xl md:text-7xl font-bold leading-tight tracking-tight text-slateink">
               ระบบโมดูล <br />
-              <span className="text-azure">ประกอบ · ถอด · ย้ายได้</span>
+              <span className="text-[clamp(1.5rem,4.3vw,2.25rem)] leading-[1.2] text-azure">
+                ประกอบ · ถอด · ย้ายได้
+              </span>
             </h1>
             <p className="mt-4 max-w-2xl text-sm sm:text-base font-light leading-relaxed text-slateink/65">
               "นวัตกรรมโครงสร้างระบบถอดประกอบอัจฉริยะ (Adaptive Modular Architecture)"
