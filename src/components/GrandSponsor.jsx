@@ -1,8 +1,52 @@
 // src/components/GrandSponsor.jsx
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const impactActivities = [
+  {
+    src: '/impact_activity1.jpg',
+    alt: 'กิจกรรม "ทำดี! มี IMPACT" รณรงค์ลด นำกลับมาใช้ใหม่ รีไซเคิล และคัดแยกขยะในพื้นที่ศูนย์แสดงสินค้า',
+  },
+  {
+    src: '/impact_activity2.jpg',
+    alt: 'โครงการ "อิมแพ็ครักษ์โลก" รณรงค์การจัดการขยะขวดพลาสติกเพื่อเข้าสู่กระบวนการ Circular Economy',
+  },
+  {
+    src: '/impact_activity3.jpg',
+    alt: 'กิจกรรมรณรงค์คัดแยกขวดพลาสติก Reduce Reuse Recycle ภายในงานแสดงสินค้า อิมแพ็ค เมืองทองธานี',
+  },
+  {
+    src: '/impact_activity4.jpg',
+    alt: 'จุดคัดแยกและตัดเตรียมขวดพลาสติกเพื่อส่งต่อไปยังกระบวนการรีไซเคิลอย่างยั่งยืน',
+  },
+];
 
 export default function GrandSponsor() {
+  const [selectedIndex, setSelectedIndex] = useState(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (selectedIndex === null) return;
+      if (e.key === 'Escape') setSelectedIndex(null);
+      if (e.key === 'ArrowRight') {
+        setSelectedIndex((prev) => (prev + 1) % impactActivities.length);
+      }
+      if (e.key === 'ArrowLeft') {
+        setSelectedIndex((prev) => (prev - 1 + impactActivities.length) % impactActivities.length);
+      }
+    };
+
+    if (selectedIndex !== null) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedIndex]);
+
   // จุดเด่นด้านความยั่งยืนของผู้สนับสนุน — แยกเป็น array เพื่อ map ได้ง่าย
   const highlights = [
     { title: 'Green Meetings', desc: 'นโยบายจัดประชุมและอีเวนต์ที่ลดผลกระทบต่อสิ่งแวดล้อม' },
@@ -113,6 +157,40 @@ export default function GrandSponsor() {
             ))}
           </div>
 
+          {/* ── แกลเลอรีภาพกิจกรรมด้านความยั่งยืน ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6, duration: 0.65 }}
+            className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3"
+          >
+            {impactActivities.map((img, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setSelectedIndex(i)}
+                className="group relative block w-full overflow-hidden rounded-xl border border-white/20 aspect-square text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-champagne"
+                aria-label={`ดูภาพขนาดเต็ม: ${img.alt}`}
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-slateink/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 p-2 text-center">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slateink/80 text-champagne shadow-lg border border-champagne/40 mb-2 transform scale-90 transition-transform group-hover:scale-100">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                    </svg>
+                  </span>
+                  <span className="text-[11px] sm:text-xs text-white/90 font-medium">ดูภาพเต็ม</span>
+                </div>
+              </button>
+            ))}
+          </motion.div>
+
           {/* เส้นคั่นทองและข้อความปิดท้าย */}
           <motion.div
             initial={{ scaleX: 0 }}
@@ -126,6 +204,95 @@ export default function GrandSponsor() {
           </p>
         </motion.div>
       </div>
+
+      {/* ── Fullscreen Image Modal ── */}
+      <AnimatePresence>
+        {selectedIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slateink/90 p-3 sm:p-6 backdrop-blur-xl"
+            onClick={() => setSelectedIndex(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0, y: 15 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.94, opacity: 0, y: 10 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="relative flex flex-col w-full max-w-4xl max-h-[92vh] overflow-hidden rounded-3xl border-2 border-champagne/40 bg-slateink/95 shadow-[0_0_50px_rgba(212,175,55,0.2)] backdrop-blur-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Top Bar with counter & close button */}
+              <div className="flex items-center justify-between border-b border-white/10 bg-white/5 px-5 py-3 sm:py-3.5">
+                <span className="text-xs sm:text-sm font-light text-white/70">
+                  ภาพที่ <span className="font-semibold text-champagne">{selectedIndex + 1}</span> จาก {impactActivities.length}
+                </span>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedIndex(null)}
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 hover:text-champagne transition-colors"
+                  aria-label="ปิดภาพ"
+                >
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Main Image Area */}
+              <div className="relative flex-1 flex items-center justify-center overflow-hidden bg-black/40 p-2 sm:p-4 min-h-[300px] max-h-[72vh]">
+                <img
+                  key={impactActivities[selectedIndex].src}
+                  src={impactActivities[selectedIndex].src}
+                  alt={impactActivities[selectedIndex].alt}
+                  className="max-h-[70vh] w-auto max-w-full object-contain rounded-xl shadow-lg"
+                />
+
+                {/* Prev Button */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedIndex((prev) => (prev - 1 + impactActivities.length) % impactActivities.length);
+                  }}
+                  className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-slateink/80 border border-white/20 text-white hover:bg-champagne/20 hover:border-champagne hover:text-champagne transition-all shadow-xl"
+                  aria-label="ภาพก่อนหน้า"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+
+                {/* Next Button */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedIndex((prev) => (prev + 1) % impactActivities.length);
+                  }}
+                  className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-slateink/80 border border-white/20 text-white hover:bg-champagne/20 hover:border-champagne hover:text-champagne transition-all shadow-xl"
+                  aria-label="ภาพถัดไป"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Bottom Caption Bar */}
+              <div className="border-t border-white/10 bg-slate-900/90 px-5 py-3.5 sm:px-6">
+                <p className="text-xs sm:text-sm font-light text-white/90">
+                  {impactActivities[selectedIndex].alt}
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
