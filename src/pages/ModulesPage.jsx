@@ -43,7 +43,7 @@ export default function ModulesPage() {
             <span className="inline-flex items-center gap-2 rounded-full border border-cyanglow/35 bg-cyanglow/8 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-wider text-cyanglow">
               MODULAR SYSTEM
             </span>
-            <h1 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-slateink">
+            <h1 className="mt-4 text-4xl sm:text-5xl md:text-7xl font-bold leading-tight tracking-tight text-slateink">
               ระบบโมดูล <br />
               <span className="text-azure">ประกอบ · ถอด · ย้ายได้</span>
             </h1>
