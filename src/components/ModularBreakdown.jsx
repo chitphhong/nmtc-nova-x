@@ -1,4 +1,4 @@
-﻿// src/components/ModularBreakdown.jsx
+// src/components/ModularBreakdown.jsx
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -30,20 +30,29 @@ export default function ModularBreakdown({ hideHeader = false }) {
 
   // หมวดหมู่ทั้งหมด
   const categories = [
-    { key: 'all', label: 'ทั้งหมด (13)' },
+    { key: 'all', label: `ทั้งหมด (${modules.length})` },
     { key: 'Cube System', label: 'Cube System' },
     { key: 'Compact Cube', label: 'Compact (55cm)' },
     { key: 'Triangular System', label: 'Triangle' },
-    { key: 'Special', label: 'พืชพันธุ์ & แสงไฟ' },
+    { key: 'พืชพันธุ์ & แสงไฟ', label: 'พืชพันธุ์ & แสงไฟ' },
   ];
 
   // กรองตามหมวดหมู่
   const filteredModules = modules.filter((m) => {
     if (activeCategory === 'all') return true;
-    if (activeCategory === 'Special') {
-      return m.category === 'Biophilic System' || m.category === 'Geometric Accent' || m.category === 'Smart Electrical';
+    if (activeCategory === 'พืชพันธุ์ & แสงไฟ') {
+      return (
+        m.category === 'พืชพันธุ์ & แสงไฟ' ||
+        m.category === 'Special' ||
+        m.category === 'Biophilic System' ||
+        m.category === 'Smart Electrical' ||
+        m.category === 'Geometric Accent' ||
+        m.code === 'Plants' ||
+        m.code === 'Lighting' ||
+        m.code === 'Hexagon'
+      );
     }
-    return m.category === activeCategory;
+    return m.category === activeCategory || m.category_th === activeCategory;
   });
 
   const toneStyles = {

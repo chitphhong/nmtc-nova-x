@@ -1,4 +1,4 @@
-﻿// src/pages/ModuleDetailPage.jsx
+// src/pages/ModuleDetailPage.jsx
 // หน้ารายละเอียดเฉพาะของแต่ละโมดูล (เปิดผ่าน QR Code หรือคลิกจากหน้า /modules)
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
@@ -309,7 +309,7 @@ export default function ModuleDetailPage() {
             to="/modules"
             className="rounded-full bg-white/80 border border-slateink/15 px-5 py-2 text-xs sm:text-sm font-medium text-slateink hover:bg-white hover:text-azure transition-all shadow-sm"
           >
-            ดูโมดูลทั้งหมด (13 โมดูล)
+            ดูโมดูลทั้งหมด ({allModules.length} โมดูล)
           </Link>
 
           {nextModule ? (
