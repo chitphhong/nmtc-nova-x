@@ -3,11 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { QRCodeSVG } from 'qrcode.react';
 import { fetchWithFallback } from '../lib/supabaseClient';
 import { mockModules } from '../data/mockdata';
-
-const BASE_URL = 'https://nmtc-nova-x.vercel.app';
 
 // ไอคอนแยกตามหมวดหมู่ชิ้นส่วน
 const componentIcons = {
@@ -55,23 +52,6 @@ export default function ModuleDetailPage() {
   );
   const prevModule = currentIndex > 0 ? allModules[currentIndex - 1] : null;
   const nextModule = currentIndex >= 0 && currentIndex < allModules.length - 1 ? allModules[currentIndex + 1] : null;
-
-  const targetUrl = `${BASE_URL}/modules/${currentModule?.code || code}`;
-
-  // ฟังก์ชันดาวน์โหลด QR Code เป็นไฟล์ SVG
-  const handleDownloadQR = () => {
-    const svgEl = document.getElementById(`qr-svg-${currentModule?.code}`);
-    if (!svgEl) return;
-    const svgData = new XMLSerializer().serializeToString(svgEl);
-    const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-    const svgUrl = URL.createObjectURL(svgBlob);
-    const downloadLink = document.createElement('a');
-    downloadLink.href = svgUrl;
-    downloadLink.download = `QR-Module-${currentModule?.code}.svg`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  };
 
   if (!loading && !currentModule) {
     return (
@@ -127,9 +107,7 @@ export default function ModuleDetailPage() {
           transition={{ duration: 0.5 }}
           className="glass-card overflow-hidden border-white/70 p-6 sm:p-10 shadow-xl"
         >
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
-            {/* ซ้าย: รายละเอียดโมดูล */}
-            <div className="flex-1">
+          <div>
               <div className="flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center rounded-full bg-azure/10 border border-azure/30 px-3.5 py-1 text-xs sm:text-sm font-semibold tracking-wider text-azure">
                   MODULE {currentModule?.code}
@@ -161,38 +139,6 @@ export default function ModuleDetailPage() {
                   ))}
                 </div>
               )}
-            </div>
-
-            {/* ขวา: การ์ด QR Code ประจำชิ้นนี้ */}
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-white/80 bg-white/60 p-5 sm:p-6 shadow-md backdrop-blur-md min-w-[240px] text-center">
-              <div className="rounded-xl border border-slateink/10 bg-white p-3 shadow-inner">
-                <QRCodeSVG
-                  id={`qr-svg-${currentModule?.code}`}
-                  value={targetUrl}
-                  size={160}
-                  level="H"
-                  includeMargin={true}
-                />
-              </div>
-
-              <span className="mt-3 text-xs font-semibold text-slateink tracking-wider">
-                สแกนดูข้อมูลโมดูลนี้
-              </span>
-              <span className="text-[11px] font-mono text-slateink/50 break-all max-w-[200px]">
-                /modules/{currentModule?.code}
-              </span>
-
-              <button
-                type="button"
-                onClick={handleDownloadQR}
-                className="mt-3.5 inline-flex items-center gap-1.5 rounded-lg border border-azure/30 bg-azure/10 px-3.5 py-1.5 text-xs font-medium text-azure hover:bg-azure hover:text-white transition-all shadow-sm"
-              >
-                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
-                </svg>
-                ดาวน์โหลด QR Code
-              </button>
-            </div>
           </div>
         </motion.div>
 
