@@ -6,6 +6,7 @@ import MainLayout from './layouts/MainLayout';
 import HomePage from './pages/HomePage';
 import MaterialsPage from './pages/MaterialsPage';
 import ModulesPage from './pages/ModulesPage';
+import ModuleDetailPage from './pages/ModuleDetailPage';
 import SponsorPage from './pages/SponsorPage';
 import TeamPage from './pages/TeamPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { index: true,          element: <HomePage /> },
       { path: 'materials',    element: <MaterialsPage /> },
       { path: 'modules',      element: <ModulesPage /> },
+      { path: 'modules/:code', element: <ModuleDetailPage /> },
       {
         // SponsorPage จัดการ Footer ของตัวเองเพราะมี full-bleed background
         path: 'sponsor',

@@ -1,52 +1,55 @@
-// src/components/ModularBreakdown.jsx
+﻿// src/components/ModularBreakdown.jsx
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { fetchWithFallback } from '../lib/supabaseClient';
 import { mockModules } from '../data/mockdata';
-
-// ไอคอน SVG ประจำแต่ละโมดูล เก็บเป็น object เพื่อเรียกใช้ตาม id
-const icons = {
-  A: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 18v-6a2 2 0 012-2h12a2 2 0 012 2v6" />
-      <path d="M4 18h16M7 18v3M17 18v3M7 10V7a2 2 0 012-2h6a2 2 0 012 2v3" />
-    </svg>
-  ),
-  B: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M5 10h14l-1.5 9a2 2 0 01-2 1.7H8.5a2 2 0 01-2-1.7L5 10z" />
-      <path d="M12 10c0-3 2-5 5-5-.3 3-2.3 5-5 5zM12 10c0-2.5-1.8-4.5-4.5-4.5.3 2.7 2 4.5 4.5 4.5z" />
-    </svg>
-  ),
-  C: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3l8 14H4l8-14z" />
-      <path d="M12 10v4M12 17h.01" />
-    </svg>
-  ),
-};
+import ModulePrintModal from './ModulePrintModal';
 
 export default function ModularBreakdown({ hideHeader = false }) {
-  // state: รายการโมดูล (เริ่มด้วย mock แล้วค่อยแทนที่ด้วยข้อมูลจาก Supabase)
+  // state: รายการโมดูล
   const [modules, setModules] = useState(mockModules);
-  // state: โมดูลที่ถูกเลือกเพื่อดูรายละเอียดเต็ม
+  // state: โมดูลที่ถูกเลือกเพื่อดูรายละเอียดแบบย่อ
   const [selected, setSelected] = useState(null);
+  // state: หมวดหมู่ที่เลือกฟิลเตอร์
+  const [activeCategory, setActiveCategory] = useState('all');
+  // state: เปิดโมดอลพิมพ์ QR Code
+  const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
 
   // ดึงข้อมูลโมดูลจากตาราง modules พร้อม fallback
   useEffect(() => {
     let alive = true;
     (async () => {
       const res = await fetchWithFallback('modules', mockModules, { order: 'id' });
-      if (alive) setModules(res.data);
+      if (alive) {
+        setModules(res.data && res.data.length > 0 ? res.data : mockModules);
+      }
     })();
     return () => { alive = false; };
   }, []);
 
-  // ตารางแปลง tone → class เพื่อให้ Tailwind สแกนเจอ (ห้ามสร้าง class แบบ string ต่อกัน)
+  // หมวดหมู่ทั้งหมด
+  const categories = [
+    { key: 'all', label: 'ทั้งหมด (13)' },
+    { key: 'Cube System', label: 'Cube System' },
+    { key: 'Compact Cube', label: 'Compact (55cm)' },
+    { key: 'Triangular System', label: 'Triangle' },
+    { key: 'Special', label: 'พืชพันธุ์ & แสงไฟ' },
+  ];
+
+  // กรองตามหมวดหมู่
+  const filteredModules = modules.filter((m) => {
+    if (activeCategory === 'all') return true;
+    if (activeCategory === 'Special') {
+      return m.category === 'Biophilic System' || m.category === 'Geometric Accent' || m.category === 'Smart Electrical';
+    }
+    return m.category === activeCategory;
+  });
+
   const toneStyles = {
-    azure: { ring: 'hover:border-azure/60 hover:shadow-azure', chip: 'bg-azure/10 text-azure', bar: 'from-azure to-cyanglow' },
-    gold: { ring: 'hover:border-champagne/60 hover:shadow-gold', chip: 'bg-champagne/12 text-champagne', bar: 'from-champagne to-amber-300' },
-    cyan: { ring: 'hover:border-cyanglow/60 hover:shadow-cyan', chip: 'bg-cyanglow/12 text-cyanglow', bar: 'from-cyanglow to-azure' },
+    azure: { ring: 'hover:border-azure/60 hover:shadow-azure', chip: 'bg-azure/10 text-azure border-azure/25', bar: 'from-azure to-cyanglow' },
+    gold: { ring: 'hover:border-champagne/60 hover:shadow-gold', chip: 'bg-champagne/12 text-champagne border-champagne/25', bar: 'from-champagne to-amber-300' },
+    cyan: { ring: 'hover:border-cyanglow/60 hover:shadow-cyan', chip: 'bg-cyanglow/12 text-cyanglow border-cyanglow/25', bar: 'from-cyanglow to-azure' },
   };
 
   return (
@@ -68,84 +71,125 @@ export default function ModularBreakdown({ hideHeader = false }) {
               ระบบโมดูล <br /><span className="text-azure">ประกอบ · ถอด · ย้ายได้</span>
             </h2>
             <p className="mt-4 text-sm sm:text-base font-light leading-relaxed text-slateink">
-              นวัตกรรมโครงสร้างระบบถอดประกอบอัจฉริยะ (Adaptive Modular Architecture)"
-
-              ประติมากรรม IMPACT RE:BUILD ถูกรังสรรค์ขึ้นจาก 4 โมดูลหลักที่เชื่อมต่อกันด้วยระบบวิศวกรรมแบบถอดประกอบซ้ำได้ (Re-configurable Dynamic System) เอื้อต่อการปรับเปลี่ยนผังรูปทรงให้เข้ากับบริบทพื้นที่จัดแสดงสินค้าและการประชุมของอิมแพ็ค เมืองทองธานีได้อย่างไร้ขีดจำกัด อีกทั้งยังรองรับการซ่อมบำรุงเฉพาะโมดูล (Selective Maintenance) ได้อย่างแม่นยำ โดยไม่รบกวนหรือรื้อถอนโครงสร้างหลักทั้งหมด ยืดอายุการใช้งาน ชูแนวคิด Circular Design และลดการสร้างขยะส่วนเกินได้อย่างเป็นรูปธรรม
+              "นวัตกรรมโครงสร้างระบบถอดประกอบอัจฉริยะ (Adaptive Modular Architecture)"
+              ประติมากรรม IMPACT RE:BUILD ถูกรังสรรค์ขึ้นจากโมดูลย่อยที่เชื่อมต่อกันด้วยระบบวิศวกรรมแบบถอดประกอบซ้ำได้ (Re-configurable Dynamic System) เอื้อต่อการปรับเปลี่ยนผังรูปทรงให้เข้ากับบริบทพื้นที่จัดแสดงสินค้า พร้อมระบบ QR Code ประจำชิ้นงานเพื่อติดตามและดูประวัติวัสดุได้อย่างโปร่งใส
             </p>
           </motion.div>
         )}
 
-        {/* กริดการ์ดโมดูล: 1 คอลัมน์มือถือ → 2 คอลัมน์แท็บเล็ต → 3 คอลัมน์เดสก์ท็อป */}
-        <div className={`${hideHeader ? 'mt-2 sm:mt-4' : 'mt-10 sm:mt-14'} grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6`}>
-          {modules.map((mod, i) => {
+        {/* ── Action Bar: ปุ่มพิมพ์ QR Code + หมวดหมู่ ── */}
+        <div className={`${hideHeader ? 'mt-4' : 'mt-10'} flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slateink/10 pb-6`}>
+          {/* หมวดหมู่ Tabs */}
+          <div className="flex flex-wrap items-center gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat.key}
+                type="button"
+                onClick={() => setActiveCategory(cat.key)}
+                className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-all ${
+                  activeCategory === cat.key
+                    ? 'bg-azure text-white shadow-sm'
+                    : 'bg-slateink/5 text-slateink/70 hover:bg-slateink/10'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
+          {/* ปุ่มพิมพ์แผ่น QR Code ทั้งหมด */}
+          <button
+            type="button"
+            onClick={() => setIsPrintModalOpen(true)}
+            className="inline-flex items-center gap-2 rounded-full border border-azure/30 bg-azure/10 px-4 py-2 text-xs sm:text-sm font-semibold text-azure hover:bg-azure hover:text-white transition-all shadow-sm shrink-0 self-start sm:self-auto"
+          >
+            <span>🖨️</span>
+            <span>พิมพ์แผ่น QR Code ({modules.length} ชิ้น)</span>
+          </button>
+        </div>
+
+        {/* ── กริดการ์ดโมดูล ── */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          {filteredModules.map((mod, i) => {
             const tone = toneStyles[mod.tone] || toneStyles.azure;
             return (
-              <motion.button
-                key={mod.id}
-                initial={{ opacity: 0, y: 48 }}
+              <motion.div
+                key={mod.code}
+                initial={{ opacity: 0, y: 36 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.36, delay: i * 0.084 }}
-                whileHover={{ y: -8, scale: 1.015 }}
-                whileTap={{ scale: 0.985 }}
-                onClick={() => setSelected(mod)} // เปิด modal รายละเอียด
-                className={`glass-card group relative overflow-hidden border-white/70 p-6 sm:p-7 text-left transition-all duration-200 ${tone.ring}`}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.3, delay: (i % 6) * 0.05 }}
+                whileHover={{ y: -6 }}
+                className={`glass-card group relative flex flex-col justify-between overflow-hidden border-white/70 p-6 sm:p-7 transition-all duration-200 ${tone.ring}`}
               >
                 {/* แถบสีไล่เฉดด้านบนการ์ด */}
                 <span className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${tone.bar}`} />
 
-                {/* วงแสงเบลอ ปรากฏตอน hover */}
-                <span
-                  className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-300 group-hover:opacity-30"
-                  style={{ background: mod.accent }}
-                />
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className={`rounded-full border px-3 py-1 text-[11px] font-semibold tracking-wider ${tone.chip}`}>
+                      MODULE {mod.code}
+                    </span>
+                    <span className="text-xs text-slateink/50 font-light">
+                      {mod.category_th || mod.category}
+                    </span>
+                  </div>
 
-                <div className="flex items-center justify-between">
-                  <span className={`rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.16em] ${tone.chip}`}>
-                    {mod.code}
-                  </span>
-                  {/* ไอคอนประจำโมดูล พร้อมอนิเมชันลอยเบา ๆ เฉพาะโมดูลไฟ */}
-                  <span
-                    className={`grid h-12 w-12 place-items-center rounded-2xl ${tone.chip} ${mod.id === 'C' ? 'animate-pulse-slow' : ''}`}
-                    style={{ color: mod.accent }}
-                  >
-                    <span className="h-6 w-6">{icons[mod.id]}</span>
-                  </span>
+                  <h3 className="mt-4 text-xl sm:text-2xl font-bold tracking-tight text-slateink">
+                    {mod.title_th || mod.title}
+                  </h3>
+
+                  <p className="mt-2.5 text-xs sm:text-sm font-light leading-relaxed text-slateink/65 line-clamp-3">
+                    {mod.desc}
+                  </p>
+
+                  {/* สเปกย่อย */}
+                  {mod.specs && (
+                    <ul className="mt-4 space-y-1.5 border-t border-slateink/5 pt-3">
+                      {mod.specs.slice(0, 2).map((sp) => (
+                        <li key={sp} className="flex items-center gap-2 text-xs font-light text-slateink/60">
+                          <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: mod.accent }} />
+                          <span className="line-clamp-1">{sp}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {/* ชิ้นส่วนสรุป */}
+                  {mod.components && (
+                    <div className="mt-3 text-[11px] font-medium text-azure">
+                      ชิ้นส่วน: {mod.components.length} รายการ
+                    </div>
+                  )}
                 </div>
 
-                <h3 className="mt-5 text-2xl sm:text-3xl font-bold tracking-tight text-slateink">
-                  {mod.title}
-                </h3>
-                <p className="text-sm font-medium" style={{ color: mod.accent }}>{mod.title_th}</p>
+                {/* ปุ่มดูรายละเอียด & สแกน QR */}
+                <div className="mt-6 flex items-center justify-between border-t border-slateink/10 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setSelected(mod)}
+                    className="text-xs font-medium text-slateink/60 hover:text-slateink transition-colors"
+                  >
+                    ดูสรุปย่อ
+                  </button>
 
-                {/* ตัดข้อความ 3 บรรทัดบนการ์ด แล้วดูเต็มใน modal */}
-                <p className="mt-3 text-sm font-light leading-relaxed text-slateink/65 line-clamp-3">
-                  {mod.desc}
-                </p>
-
-                {/* รายการสเปกย่อย */}
-                <ul className="mt-4 space-y-1.5">
-                  {mod.specs.map((sp) => (
-                    <li key={sp} className="flex items-center gap-2 text-xs font-light text-slateink/60">
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: mod.accent }} />
-                      {sp}
-                    </li>
-                  ))}
-                </ul>
-
-                <span className="mt-5 inline-flex items-center gap-1 text-xs font-medium transition-transform duration-200 group-hover:translate-x-1" style={{ color: mod.accent }}>
-                  ดูรายละเอียด
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </span>
-              </motion.button>
+                  <Link
+                    to={`/modules/${mod.code}`}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-azure group-hover:translate-x-1 transition-all"
+                  >
+                    <span>หน้ารายละเอียด & QR</span>
+                    <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </Link>
+                </div>
+              </motion.div>
             );
           })}
         </div>
       </div>
 
-      {/* ===== Modal รายละเอียดโมดูล ===== */}
+      {/* ── Modal สรุปย่อโมดูล ── */}
       <AnimatePresence>
         {selected && (
           <motion.div
@@ -156,57 +200,91 @@ export default function ModularBreakdown({ hideHeader = false }) {
             className="fixed inset-0 z-[80] grid place-items-center bg-slateink/60 px-4 py-8 backdrop-blur-md"
           >
             <motion.div
-              onClick={(e) => e.stopPropagation()} // กันคลิกในกล่องแล้วปิด
-              initial={{ scale: 0.92, opacity: 0, y: 24 }}
+              onClick={(e) => e.stopPropagation()}
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.92, opacity: 0, y: 24 }}
-              transition={{ type: 'spring', damping: 20, stiffness: 400 }}
-              className="w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl border bg-white/95 p-6 sm:p-8 backdrop-blur-2xl"
+              exit={{ scale: 0.92, opacity: 0, y: 20 }}
+              className="w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl border bg-white p-6 sm:p-8 shadow-2xl"
               style={{ borderColor: `${selected.accent}66` }}
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <span className="text-[10px] font-semibold tracking-[0.18em]" style={{ color: selected.accent }}>
-                    {selected.code}
+                  <span className="text-xs font-bold tracking-widest uppercase" style={{ color: selected.accent }}>
+                    MODULE {selected.code}
                   </span>
-                  <h3 className="mt-1 text-2xl sm:text-3xl font-bold text-slateink">{selected.title}</h3>
-                  <p className="text-sm font-medium text-black">{selected.title_th}</p>
+                  <h3 className="mt-1 text-2xl font-bold text-slateink">{selected.title_th || selected.title}</h3>
+                  <p className="text-xs text-slateink/60 mt-0.5">{selected.category_th || selected.category}</p>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setSelected(null)}
-                  aria-label="ปิดรายละเอียดโมดูล"
-                  className="grid h-11 w-11 shrink-0 place-items-center rounded-xl text-slateink/60 hover:bg-slateink/5"
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slateink/5 text-slateink/60 hover:bg-slateink/10"
                 >
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <path d="M6 6l12 12M18 6L6 18" />
-                  </svg>
+                  ✕
                 </button>
               </div>
 
-              <p className="mt-5 text-sm sm:text-base font-light leading-relaxed text-black">
+              <p className="mt-4 text-sm font-light leading-relaxed text-slateink/80">
                 {selected.desc}
               </p>
 
-              {/* ตารางสเปก 1 คอลัมน์มือถือ → 2 คอลัมน์จอกว้าง */}
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {selected.specs.map((sp) => (
-                  <div key={sp} className="rounded-xl border border-slateink/8 bg-slateink/[0.03] p-3">
-                    <p className="text-xs font-light text-black">{sp}</p>
+              {/* สเปก */}
+              {selected.specs && (
+                <div className="mt-5 space-y-2">
+                  <span className="text-xs font-semibold text-slateink block">ข้อมูลจำเพาะ</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {selected.specs.map((sp) => (
+                      <div key={sp} className="rounded-xl border border-slateink/8 bg-slateink/[0.03] p-2.5 text-xs text-slateink/70">
+                        {sp}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
 
-              <button
-                onClick={() => setSelected(null)}
-                className="btn-base mt-6 w-full font-semibold text-white"
-                style={{ background: selected.accent }}
-              >
-                ปิด
-              </button>
+              {/* ชิ้นส่วน */}
+              {selected.components && (
+                <div className="mt-5">
+                  <span className="text-xs font-semibold text-slateink block mb-2">
+                    รายการชิ้นส่วน ({selected.components.length} รายการ)
+                  </span>
+                  <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1">
+                    {selected.components.map((comp, idx) => (
+                      <div key={idx} className="flex items-center justify-between text-xs py-1 border-b border-slateink/5">
+                        <span className="text-slateink/80 font-medium">{comp.name}</span>
+                        <span className="font-mono text-slateink/60">{comp.qty} {comp.unit}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-6 flex flex-col sm:flex-row gap-2.5">
+                <Link
+                  to={`/modules/${selected.code}`}
+                  className="flex-1 rounded-xl bg-azure py-2.5 text-center text-xs sm:text-sm font-semibold text-white shadow-md hover:bg-azure/90 transition-all"
+                >
+                  เปิดหน้ารายละเอียด & สแกน QR →
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setSelected(null)}
+                  className="rounded-xl border border-slateink/15 py-2.5 px-4 text-xs font-medium text-slateink/70 hover:bg-slateink/5"
+                >
+                  ปิด
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ── Modal พิมพ์แผ่น QR Code ── */}
+      <ModulePrintModal
+        isOpen={isPrintModalOpen}
+        onClose={() => setIsPrintModalOpen(false)}
+        modules={modules}
+      />
     </section>
   );
 }
