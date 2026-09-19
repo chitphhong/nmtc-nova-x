@@ -13,7 +13,15 @@ export default function ModulePrintModal({ isOpen, onClose, modules = [] }) {
   if (!isOpen) return null;
 
   // ฟังก์ชันวาดการ์ดให้ออกมาเหมือนภาพต้นแบบในระดับความคมชัดสูง (2x Retina)
-  const generateCardCanvas = (mod) => {
+  const generateCardCanvas = async (mod) => {
+    // Canvas จะไม่รับฟอนต์จาก CSS โดยอัตโนมัติ จึงต้องรอให้ Web Font
+    // ถูกโหลดก่อน เพื่อให้ข้อความภาษาไทยในไฟล์ PNG ใช้ Anakotmai เสมอ
+    if (document.fonts) {
+      await Promise.all([
+        document.fonts.load('500 15px Anakotmai'),
+        document.fonts.ready,
+      ]);
+    }
     const url = `${baseUrl}/modules/${mod.code}`;
     const width = 480;
     const height = 580;
@@ -67,7 +75,7 @@ export default function ModulePrintModal({ isOpen, onClose, modules = [] }) {
 
     // 3. ชื่อโมดูลภาษาไทย
     ctx.fillStyle = '#475569';
-    ctx.font = '500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", "Thonburi", sans-serif';
+    ctx.font = '500 15px "Anakotmai", "Noto Sans Thai", "Thonburi", sans-serif';
     ctx.fillText(mod.title_th || mod.title, width / 2, 116);
 
     // เส้นคั่นบน
@@ -97,7 +105,7 @@ export default function ModulePrintModal({ isOpen, onClose, modules = [] }) {
 
     // 5. ข้อความเชิญชวนสแกนสีฟ้า
     ctx.fillStyle = '#0284C7';
-    ctx.font = '700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", "Thonburi", sans-serif';
+    ctx.font = '500 15px "Anakotmai", "Noto Sans Thai", "Thonburi", sans-serif';
     ctx.fillText('เปิดกล้องมือถือสแกนดูรายละเอียด', width / 2, 464);
 
     // 6. ลิงก์ URL ตัวอักษร Monospace
@@ -109,8 +117,8 @@ export default function ModulePrintModal({ isOpen, onClose, modules = [] }) {
   };
 
   // ดาวน์โหลดรูปภาพเดี่ยวเป็นไฟล์ PNG
-  const handleDownloadSingle = (mod) => {
-    const canvas = generateCardCanvas(mod);
+  const handleDownloadSingle = async (mod) => {
+    const canvas = await generateCardCanvas(mod);
     const dataUrl = canvas.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = dataUrl;
@@ -129,7 +137,7 @@ export default function ModulePrintModal({ isOpen, onClose, modules = [] }) {
 
       for (let i = 0; i < modules.length; i++) {
         const mod = modules[i];
-        const canvas = generateCardCanvas(mod);
+        const canvas = await generateCardCanvas(mod);
         const dataUrl = canvas.toDataURL('image/png');
         const base64 = dataUrl.replace(/^data:image\/png;base64,/, '');
         folder.file(`QR-Card-MODULE-${mod.code}.png`, base64, { base64: true });
