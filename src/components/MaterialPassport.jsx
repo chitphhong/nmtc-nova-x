@@ -307,7 +307,8 @@ export default function MaterialPassport() {
                         : [null, null, null]
                       ).slice(0, 3).map((imgUrl, imgIdx) => (
                         <button
-                          key={imgIdx}
+                          // เปลี่ยน key ตาม URL เพื่อ remount หลังข้อมูล Supabase มาแทน mock data
+                          key={`${imgIdx}-${imgUrl || 'placeholder'}`}
                           type="button"
                           onClick={() => imgUrl && setSelectedImage({ src: imgUrl, label: `${mat.name} ${imgIdx + 1}` })}
                           disabled={!imgUrl}
