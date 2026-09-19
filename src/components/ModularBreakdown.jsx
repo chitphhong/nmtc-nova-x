@@ -1,4 +1,4 @@
-// src/components/ModularBreakdown.jsx
+﻿// src/components/ModularBreakdown.jsx
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -81,7 +81,7 @@ export default function ModularBreakdown({ hideHeader = false }) {
             </h2>
             <p className="mt-4 text-sm sm:text-base font-light leading-relaxed text-slateink">
               "นวัตกรรมโครงสร้างระบบถอดประกอบอัจฉริยะ (Adaptive Modular Architecture)"
-              ประติมากรรม IMPACT RE:BUILD ถูกรังสรรค์ขึ้นจากโมดูลย่อยที่เชื่อมต่อกันด้วยระบบวิศวกรรมแบบถอดประกอบซ้ำได้ (Re-configurable Dynamic System) เอื้อต่อการปรับเปลี่ยนผังรูปทรงให้เข้ากับบริบทพื้นที่จัดแสดงสินค้า พร้อมระบบ QR Code ประจำชิ้นงานเพื่อติดตามและดูประวัติวัสดุได้อย่างโปร่งใส
+              ประติมากรรม IMPACT RE:BUILD ถูกรังสรรค์ขึ้นจากโมดูลย่อยที่เชื่อมต่อกันด้วยระบบวิศวกรรมแบบถอดประกอบได้ (Re-configurable Dynamic System) เอื้อต่อการปรับเปลี่ยนผังรูปทรงให้เข้ากับบริบทพื้นที่จัดแสดงสินค้า พร้อมระบบ QR Code ประจำชิ้นงานเพื่อติดตามและดูประวัติวัสดุได้อย่างโปร่งใส
             </p>
           </motion.div>
         )}
