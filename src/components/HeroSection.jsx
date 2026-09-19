@@ -156,10 +156,10 @@ export default function HeroSection() {
           transition={{ duration: 0.7, delay: 0.56 }}
           className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4"
         >
-          <a href="#modules" className="btn-base bg-champagne text-slateink font-semibold shadow-gold hover:brightness-110 hover:scale-[1.02]">
+          <a href="/modules" className="btn-base bg-champagne text-slateink font-semibold shadow-gold hover:brightness-110 hover:scale-[1.02]">
             สำรวจโครงสร้าง
           </a>
-          <a href="#passport" className="btn-base border border-cyanglow/60 bg-white/10 text-white backdrop-blur hover:bg-cyanglow/15 hover:scale-[1.02]">
+          <a href="/materials" className="btn-base border border-cyanglow/60 bg-white/10 text-white backdrop-blur hover:bg-cyanglow/15 hover:scale-[1.02]">
             ที่มาวัสดุและการรีไซเคิล
           </a>
         </motion.div>
